@@ -15,7 +15,8 @@ func _ready() -> void:
 
 
 func _on_OKButton_pressed() -> void:
-	hide()
+	Config.path_to_nwf = path_to_line_edit.text
+	queue_free()
 
 
 func _on_FileDialogButton_pressed() -> void:

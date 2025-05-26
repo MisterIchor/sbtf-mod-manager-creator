@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="SBTF Mod Manager"
-run/main_scene="uid://sn3jjr4cii54"
+run/main_scene="uid://c6or4pfdp5who"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 run/low_processor_mode=true
 config/icon="res://icon.svg"

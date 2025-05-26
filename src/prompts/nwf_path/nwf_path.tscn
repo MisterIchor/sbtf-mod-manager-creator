@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://sn3jjr4cii54"]
 
-[ext_resource type="Script" uid="uid://b6wlg86hcdkja" path="res://prompts/nwf_path/nwf_path.gd" id="1_esyec"]
+[ext_resource type="Script" uid="uid://b6wlg86hcdkja" path="res://src/prompts/nwf_path/nwf_path.gd" id="1_esyec"]
 
 [node name="NwfPath" type="Window"]
 title = "NWF file not found."
