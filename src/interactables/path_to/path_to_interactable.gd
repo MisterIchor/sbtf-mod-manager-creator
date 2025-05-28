@@ -17,6 +17,12 @@ func _ready() -> void:
 
 
 
+func set_text(new_text: String) -> void:
+	line_edit.text = new_text
+	line_edit.caret_column = line_edit.text.length()
+
+
+
 func _on_Button_pressed() -> void:
 	if _is_in_dialog:
 		return
@@ -33,7 +39,7 @@ func _on_Button_pressed() -> void:
 
 
 func _on_FileDialog_file_selected(path : String, file_dialog: FileDialog) -> void:
-	line_edit.text = path
+	set_text(path)
 	file_dialog.hide()
 	file_dialog.queue_free()
 	_is_in_dialog = false
