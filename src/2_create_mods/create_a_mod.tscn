@@ -10,6 +10,17 @@
 [ext_resource type="Texture2D" uid="uid://bs7jacrdorlak" path="res://icon.svg" id="7_k024u"]
 [ext_resource type="Script" uid="uid://hlnad0xspphc" path="res://src/2_create_mods/data_change.gd" id="9_vkgb3"]
 
+[sub_resource type="AudioStreamSynchronized" id="AudioStreamSynchronized_yhad8"]
+stream_count = 8
+stream_0/volume = -60.0
+stream_1/volume = -60.0
+stream_2/volume = -60.0
+stream_3/volume = -60.0
+stream_4/volume = -60.0
+stream_5/volume = -60.0
+stream_6/volume = -60.0
+stream_7/volume = -60.0
+
 [sub_resource type="FontFile" id="FontFile_yhad8"]
 cache/0/16/0/ascent = 0.0
 cache/0/16/0/descent = 0.0
@@ -35,17 +46,6 @@ cache/0/14/0/scale = 1.0
 [sub_resource type="LabelSettings" id="LabelSettings_ron3t"]
 font = SubResource("FontFile_yhad8")
 font_size = 14
-
-[sub_resource type="AudioStreamSynchronized" id="AudioStreamSynchronized_yhad8"]
-stream_count = 8
-stream_0/volume = 0.0
-stream_1/volume = 0.0
-stream_2/volume = 0.0
-stream_3/volume = 0.0
-stream_4/volume = 0.0
-stream_5/volume = 0.0
-stream_6/volume = 0.0
-stream_7/volume = 0.0
 
 [node name="CreateAMod" type="Window"]
 title = "Create a Mod"
@@ -127,106 +127,116 @@ text = "Select a mod type in the top-right corner to create a mod."
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ActionTheme" type="HBoxContainer" parent="VBoxContainer/ToolsContainer"]
+[node name="ActionTheme" type="VBoxContainer" parent="VBoxContainer/ToolsContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 script = ExtResource("3_ron3t")
 
-[node name="SettingsContainer" type="VBoxContainer" parent="VBoxContainer/ToolsContainer/ActionTheme"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/ToolsContainer/ActionTheme/SettingsContainer"]
+[node name="GlobalThemeSettingsContainer" type="HBoxContainer" parent="VBoxContainer/ToolsContainer/ActionTheme"]
 layout_mode = 2
 
-[node name="SelectedThemeOptionButton" type="OptionButton" parent="VBoxContainer/ToolsContainer/ActionTheme/SettingsContainer/HBoxContainer"]
+[node name="SelectedThemeOptionButton" type="OptionButton" parent="VBoxContainer/ToolsContainer/ActionTheme/GlobalThemeSettingsContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 alignment = 1
 
-[node name="RemoveThemeButton" type="Button" parent="VBoxContainer/ToolsContainer/ActionTheme/SettingsContainer/HBoxContainer"]
+[node name="RemoveThemeButton" type="Button" parent="VBoxContainer/ToolsContainer/ActionTheme/GlobalThemeSettingsContainer"]
 layout_mode = 2
+size_flags_horizontal = 2
 disabled = true
 text = "Remove Theme"
 
-[node name="AddThemeContainer" type="HBoxContainer" parent="VBoxContainer/ToolsContainer/ActionTheme/SettingsContainer"]
-layout_mode = 2
-
-[node name="ThemeNameLineEdit" type="LineEdit" parent="VBoxContainer/ToolsContainer/ActionTheme/SettingsContainer/AddThemeContainer"]
+[node name="ThemeNameLineEdit" type="LineEdit" parent="VBoxContainer/ToolsContainer/ActionTheme/GlobalThemeSettingsContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "New theme name..."
 alignment = 1
 
-[node name="AddThemeButton" type="Button" parent="VBoxContainer/ToolsContainer/ActionTheme/SettingsContainer/AddThemeContainer"]
+[node name="AddThemeButton" type="Button" parent="VBoxContainer/ToolsContainer/ActionTheme/GlobalThemeSettingsContainer"]
 layout_mode = 2
+size_flags_horizontal = 0
+size_flags_stretch_ratio = 0.84
 disabled = true
 text = "Add Theme"
 
-[node name="HSeparator" type="HSeparator" parent="VBoxContainer/ToolsContainer/ActionTheme/SettingsContainer"]
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer/ToolsContainer/ActionTheme"]
 layout_mode = 2
 
-[node name="OverwriteThemeToggle" parent="VBoxContainer/ToolsContainer/ActionTheme/SettingsContainer" instance=ExtResource("3_ms7mr")]
+[node name="TestMusicPlayer" type="AudioStreamPlayer" parent="VBoxContainer/ToolsContainer/ActionTheme"]
+stream = SubResource("AudioStreamSynchronized_yhad8")
+
+[node name="ThemeSettingsContainer" type="HBoxContainer" parent="VBoxContainer/ToolsContainer/ActionTheme"]
+visible = false
+layout_mode = 2
+
+[node name="LayerSettings" type="VBoxContainer" parent="VBoxContainer/ToolsContainer/ActionTheme/ThemeSettingsContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="OverwriteThemeToggle" parent="VBoxContainer/ToolsContainer/ActionTheme/ThemeSettingsContainer/LayerSettings" instance=ExtResource("3_ms7mr")]
 layout_mode = 2
 label_name = "Overwrites existing theme"
 
-[node name="Layer0" parent="VBoxContainer/ToolsContainer/ActionTheme/SettingsContainer" instance=ExtResource("2_y5g7m")]
+[node name="Layer0" parent="VBoxContainer/ToolsContainer/ActionTheme/ThemeSettingsContainer/LayerSettings" instance=ExtResource("2_y5g7m")]
 layout_mode = 2
 file_type_filter = PackedStringArray("*.wav")
 label_name = "Layer 0"
 
-[node name="Layer1" parent="VBoxContainer/ToolsContainer/ActionTheme/SettingsContainer" instance=ExtResource("2_y5g7m")]
+[node name="Layer1" parent="VBoxContainer/ToolsContainer/ActionTheme/ThemeSettingsContainer/LayerSettings" instance=ExtResource("2_y5g7m")]
 layout_mode = 2
 file_type_filter = PackedStringArray("*.wav")
 label_name = "Layer 1"
 
-[node name="Layer2" parent="VBoxContainer/ToolsContainer/ActionTheme/SettingsContainer" instance=ExtResource("2_y5g7m")]
+[node name="Layer2" parent="VBoxContainer/ToolsContainer/ActionTheme/ThemeSettingsContainer/LayerSettings" instance=ExtResource("2_y5g7m")]
 layout_mode = 2
 file_type_filter = PackedStringArray("*.wav")
 label_name = "Layer 2"
 
-[node name="Layer3" parent="VBoxContainer/ToolsContainer/ActionTheme/SettingsContainer" instance=ExtResource("2_y5g7m")]
+[node name="Layer3" parent="VBoxContainer/ToolsContainer/ActionTheme/ThemeSettingsContainer/LayerSettings" instance=ExtResource("2_y5g7m")]
 layout_mode = 2
 file_type_filter = PackedStringArray("*.wav")
 label_name = "Layer 3"
 
-[node name="Layer4" parent="VBoxContainer/ToolsContainer/ActionTheme/SettingsContainer" instance=ExtResource("2_y5g7m")]
+[node name="Layer4" parent="VBoxContainer/ToolsContainer/ActionTheme/ThemeSettingsContainer/LayerSettings" instance=ExtResource("2_y5g7m")]
 layout_mode = 2
 file_type_filter = PackedStringArray("*.wav")
 label_name = "Layer 4"
 
-[node name="Layer5" parent="VBoxContainer/ToolsContainer/ActionTheme/SettingsContainer" instance=ExtResource("2_y5g7m")]
+[node name="Layer5" parent="VBoxContainer/ToolsContainer/ActionTheme/ThemeSettingsContainer/LayerSettings" instance=ExtResource("2_y5g7m")]
 layout_mode = 2
 file_type_filter = PackedStringArray("*.wav")
 label_name = "Layer 5"
 
-[node name="Layer6" parent="VBoxContainer/ToolsContainer/ActionTheme/SettingsContainer" instance=ExtResource("2_y5g7m")]
+[node name="Layer6" parent="VBoxContainer/ToolsContainer/ActionTheme/ThemeSettingsContainer/LayerSettings" instance=ExtResource("2_y5g7m")]
 layout_mode = 2
 file_type_filter = PackedStringArray("*.wav")
 label_name = "Layer 6"
 
-[node name="Layer7" parent="VBoxContainer/ToolsContainer/ActionTheme/SettingsContainer" instance=ExtResource("2_y5g7m")]
+[node name="Layer7" parent="VBoxContainer/ToolsContainer/ActionTheme/ThemeSettingsContainer/LayerSettings" instance=ExtResource("2_y5g7m")]
 layout_mode = 2
 file_type_filter = PackedStringArray("*.wav")
 label_name = "Layer 7"
 
-[node name="VSeparator" type="VSeparator" parent="VBoxContainer/ToolsContainer/ActionTheme"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/ToolsContainer/ActionTheme/ThemeSettingsContainer/LayerSettings"]
 layout_mode = 2
 
-[node name="TestContainer" type="VBoxContainer" parent="VBoxContainer/ToolsContainer/ActionTheme"]
+[node name="VSeparator" type="VSeparator" parent="VBoxContainer/ToolsContainer/ActionTheme/ThemeSettingsContainer"]
+layout_mode = 2
+
+[node name="TestContainer" type="VBoxContainer" parent="VBoxContainer/ToolsContainer/ActionTheme/ThemeSettingsContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="TestThemeToggle" parent="VBoxContainer/ToolsContainer/ActionTheme/TestContainer" instance=ExtResource("3_ms7mr")]
+[node name="TestThemeToggle" parent="VBoxContainer/ToolsContainer/ActionTheme/ThemeSettingsContainer/TestContainer" instance=ExtResource("3_ms7mr")]
 layout_mode = 2
 label_name = "Test Theme"
 
-[node name="SpaceBeastSpawnedSlider" parent="VBoxContainer/ToolsContainer/ActionTheme/TestContainer" instance=ExtResource("4_ms7mr")]
+[node name="SpaceBeastSpawnedSlider" parent="VBoxContainer/ToolsContainer/ActionTheme/ThemeSettingsContainer/TestContainer" instance=ExtResource("4_ms7mr")]
 layout_mode = 2
 max_value = 32.0
 label_name = "Space Beasts Spawned"
 
-[node name="BeastDistanceToPlayerSlider" parent="VBoxContainer/ToolsContainer/ActionTheme/TestContainer" instance=ExtResource("4_ms7mr")]
+[node name="BeastDistanceToPlayerSlider" parent="VBoxContainer/ToolsContainer/ActionTheme/ThemeSettingsContainer/TestContainer" instance=ExtResource("4_ms7mr")]
 layout_mode = 2
 slider_label_prefix = "m"
 value = 10.0
@@ -234,7 +244,7 @@ max_value = 10.0
 step = 0.1
 label_name = "Beast Distance to Player"
 
-[node name="Label" type="Label" parent="VBoxContainer/ToolsContainer/ActionTheme/TestContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/ToolsContainer/ActionTheme/ThemeSettingsContainer/TestContainer"]
 layout_mode = 2
 size_flags_vertical = 10
 text = "Note: Test tools are an approximation and may not be 100% respresentative of how your theme sounds in-game."
@@ -242,9 +252,6 @@ label_settings = SubResource("LabelSettings_ron3t")
 horizontal_alignment = 1
 vertical_alignment = 2
 autowrap_mode = 2
-
-[node name="TestMusicPlayer" type="AudioStreamPlayer" parent="VBoxContainer/ToolsContainer/ActionTheme"]
-stream = SubResource("AudioStreamSynchronized_yhad8")
 
 [node name="GraphicReplacer" type="HSplitContainer" parent="VBoxContainer/ToolsContainer"]
 visible = false
