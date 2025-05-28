@@ -1,7 +1,15 @@
 extends HBoxContainer
 
-var adrenaline: float = 0.0
+signal data_changed(new_data: Dictionary)
 
+var adrenaline: float = 0.0
+var _data: Dictionary = {}
+var _selected_theme: String = ""
+
+@onready var theme_name_line_edit: LineEdit = $SettingsContainer/AddThemeContainer/ThemeNameLineEdit
+@onready var selected_theme_option_button: OptionButton = $SettingsContainer/HBoxContainer/SelectedThemeOptionButton
+@onready var remove_theme_button: Button = $SettingsContainer/HBoxContainer/RemoveThemeButton
+@onready var add_theme_button: Button = $SettingsContainer/AddThemeContainer/AddThemeButton
 @onready var test_music_player: AudioStreamPlayer = $TestMusicPlayer
 @onready var test_music_player_stream: AudioStreamSynchronized = $TestMusicPlayer.stream
 @onready var test_theme_toggle: ToggleOptionInteractable = $TestContainer/TestThemeToggle
@@ -26,6 +34,12 @@ func _ready() -> void:
 	test_theme_toggle.toggled.connect(_on_TestThemeToggle_toggled)
 	beast_distance_to_player_slider.value_changed.connect(_update_adrenaline.unbind(1))
 	space_beast_spawned_slider.value_changed.connect(_update_adrenaline.unbind(1))
+	add_theme_button.pressed.connect(_on_AddThemeButton_pressed)
+	selected_theme_option_button.item_selected.connect(_on_SelectedThemeOptionButton_item_selected)
+	theme_name_line_edit.text_changed.connect(_on_ThemeNameLineEdit_text_changed)
+	theme_name_line_edit.text_submitted.connect(_on_AddThemeButton_pressed.unbind(1))
+	remove_theme_button.pressed.connect(_on_RemoveThemeButton_pressed)
+
 
 
 func _update_adrenaline() -> void:
@@ -48,19 +62,25 @@ func _update_adrenaline() -> void:
 		elif adrenaline > section_start:
 			layer_volume[i] = 1.0
 	
-	#print("-------------------------------------")
-	
 	for i: int in test_music_player_stream.stream_count:
 		test_music_player_stream.set_sync_stream_volume(i, linear_to_db(layer_volume[i]))
 
 
+func _update_audio_files() -> void:
+	for i in _data[_selected_theme]:
+		var audio_stream: AudioStreamWAV = AudioStreamWAV.load_from_file(i)
+		
+		# Enable loop and set the loop end to the end of the AudioStream.
+		audio_stream.loop_mode = AudioStreamWAV.LOOP_FORWARD
+		audio_stream.loop_end = audio_stream.mix_rate * audio_stream.get_length()
+		test_music_player_stream.set_sync_stream(i, audio_stream)
+
+
 
 func _on_Layer_path_set(path: String, layer_idx: int) -> void:
-	var audio_stream: AudioStreamWAV = AudioStreamWAV.load_from_file(path)
-	
-	audio_stream.loop_mode = AudioStreamWAV.LOOP_FORWARD
-	audio_stream.loop_end = audio_stream.mix_rate * audio_stream.get_length()
-	(test_music_player.stream as AudioStreamSynchronized).set_sync_stream(layer_idx, audio_stream)
+	_update_audio_files()
+	_data[_selected_theme][layer_idx] = path
+	data_changed.emit(_data)
 	
 	if test_music_player.playing:
 		test_music_player.play()
@@ -71,3 +91,33 @@ func _on_TestThemeToggle_toggled(is_toggled: bool) -> void:
 		test_music_player.play()
 	else:
 		test_music_player.stop()
+
+
+func _on_AddThemeButton_pressed() -> void:
+	_data.get_or_add(theme_name_line_edit.text, PackedStringArray().resize(8))
+	selected_theme_option_button.add_item(theme_name_line_edit.text)
+	theme_name_line_edit.text = ""
+	remove_theme_button.disabled = false
+	add_theme_button.disabled = true
+
+
+func _on_RemoveThemeButton_pressed() -> void:
+	var selected_theme_idx: int = selected_theme_option_button.selected
+	var theme_to_remove: String = selected_theme_option_button.get_item_text(selected_theme_idx)
+	
+	selected_theme_option_button.remove_item(selected_theme_idx)
+	selected_theme_option_button.select(selected_theme_option_button.get_selectable_item())
+	_data.erase(theme_to_remove)
+	data_changed.emit(_data)
+	
+	if not selected_theme_option_button.has_selectable_items():
+		remove_theme_button.disabled = true
+
+
+func _on_SelectedThemeOptionButton_item_selected(idx: int) -> void:
+	_selected_theme = selected_theme_option_button.get_item_text(idx)
+	_update_audio_files()
+
+
+func _on_ThemeNameLineEdit_text_changed(new_text: String) -> void:
+	add_theme_button.disabled = new_text.is_empty()
