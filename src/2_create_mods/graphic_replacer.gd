@@ -1,6 +1,6 @@
 extends HSplitContainer
 
-signal replacer_selected(path: String)
+signal data_changed(new_data: Dictionary)
 
 @onready var replacer_path: PathToInteractable = $GraphicsDisplay/ReplacerPath
 @onready var selected_file_texture: TextureRect = $GraphicsDisplay/SelectedFileTexture
@@ -10,6 +10,7 @@ signal replacer_selected(path: String)
 @onready var clear_replacer_button: Button = $FileSelector/ClearReplacerButton
 
 var _list: ItemList = null
+var _data: Dictionary = {}
 
 
 
@@ -142,6 +143,8 @@ func _on_ReplacerPath_set(new_path: String) -> void:
 		
 		_update_list()
 		_update_visual(metadata)
+		_data[metadata.path_to] = metadata.replacer
+		data_changed.emit(_data)
 
 
 func _on_ClearReplacerButton_pressed() -> void:
@@ -155,3 +158,5 @@ func _on_ClearReplacerButton_pressed() -> void:
 	metadata.replacer = ""
 	_update_list()
 	_update_visual(metadata)
+	_data.erase(metadata.path_to)
+	data_changed.emit(_data)
