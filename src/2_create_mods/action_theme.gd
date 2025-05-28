@@ -67,8 +67,13 @@ func _update_adrenaline() -> void:
 
 
 func _update_audio_files() -> void:
-	for i in _data[_selected_theme]:
-		var audio_stream: AudioStreamWAV = AudioStreamWAV.load_from_file(i)
+	for i in _data[_selected_theme].size():
+		var path: String = _data[_selected_theme][i]
+		
+		if path.is_empty():
+			continue
+		
+		var audio_stream: AudioStreamWAV = AudioStreamWAV.load_from_file(path)
 		
 		# Enable loop and set the loop end to the end of the AudioStream.
 		audio_stream.loop_mode = AudioStreamWAV.LOOP_FORWARD
@@ -78,9 +83,9 @@ func _update_audio_files() -> void:
 
 
 func _on_Layer_path_set(path: String, layer_idx: int) -> void:
-	_update_audio_files()
 	_data[_selected_theme][layer_idx] = path
 	data_changed.emit(_data)
+	_update_audio_files()
 	
 	if test_music_player.playing:
 		test_music_player.play()
@@ -89,13 +94,21 @@ func _on_Layer_path_set(path: String, layer_idx: int) -> void:
 func _on_TestThemeToggle_toggled(is_toggled: bool) -> void:
 	if is_toggled and not test_music_player.playing:
 		test_music_player.play()
+		_update_adrenaline()
 	else:
 		test_music_player.stop()
 
 
 func _on_AddThemeButton_pressed() -> void:
-	_data.get_or_add(theme_name_line_edit.text, PackedStringArray().resize(8))
+	if not _data.get(theme_name_line_edit.text):
+		var array: PackedStringArray = []
+		array.resize(8)
+		_data[theme_name_line_edit.text] = array
+		data_changed.emit(_data)
+	
 	selected_theme_option_button.add_item(theme_name_line_edit.text)
+	selected_theme_option_button.select(selected_theme_option_button.item_count - 1)
+	_selected_theme = theme_name_line_edit.text
 	theme_name_line_edit.text = ""
 	remove_theme_button.disabled = false
 	add_theme_button.disabled = true
