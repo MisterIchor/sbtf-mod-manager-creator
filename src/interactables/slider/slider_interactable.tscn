@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=3 uid="uid://birb5fh1t3r2o"]
+
+[ext_resource type="PackedScene" uid="uid://b2b1kcbmfqbxk" path="res://src/interactables/interactable_base.tscn" id="1_lq7nj"]
+[ext_resource type="Script" uid="uid://bgvjd5dlqmpx0" path="res://src/interactables/slider/slider_interactable.gd" id="2_qls4n"]
+
+[node name="SliderInteractable" instance=ExtResource("1_lq7nj")]
+offset_right = 479.0
+offset_bottom = 23.0
+script = ExtResource("2_qls4n")
+slider_label_prefix = ""
+value = 0.0
+max_value = 100.0
+min_value = 0.0
+step = 1.0
+label_name = "Slider"
+
+[node name="Label" parent="." index="0"]
+text = "Slider:"
+
+[node name="HSlider" type="HSlider" parent="." index="1"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="SliderLabel" type="Label" parent="." index="2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+text = "0.0"
+horizontal_alignment = 1

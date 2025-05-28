@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://dmld7ckabitjr"]
+
+[ext_resource type="PackedScene" uid="uid://b2b1kcbmfqbxk" path="res://src/interactables/interactable_base.tscn" id="1_2dvlt"]
+[ext_resource type="Script" uid="uid://dmk4brn5i6ahg" path="res://src/interactables/toggle/toggle_option_interactable.gd" id="2_03pv4"]
+
+[node name="ToggleOptionInteractable" instance=ExtResource("1_2dvlt")]
+script = ExtResource("2_03pv4")
+label_name = "Toggle Option"
+
+[node name="Label" parent="." index="0"]
+size_flags_horizontal = 3
+text = "Toggle Option:"
+
+[node name="CheckButton" type="CheckButton" parent="." index="1"]
+layout_mode = 2

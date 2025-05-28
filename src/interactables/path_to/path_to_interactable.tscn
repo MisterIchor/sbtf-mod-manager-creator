@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://ci4uj02mvx8ah"]
+
+[ext_resource type="PackedScene" uid="uid://b2b1kcbmfqbxk" path="res://src/interactables/interactable_base.tscn" id="1_edl1x"]
+[ext_resource type="Script" uid="uid://coslv7gpwtohc" path="res://src/interactables/path_to/path_to_interactable.gd" id="2_osrcx"]
+
+[node name="PathToInteractable" instance=ExtResource("1_edl1x")]
+offset_right = 510.0
+offset_bottom = 31.0
+script = ExtResource("2_osrcx")
+file_type_filter = PackedStringArray()
+label_name = "Path to"
+
+[node name="Label" parent="." index="0"]
+text = "Path to:"
+
+[node name="LineEdit" type="LineEdit" parent="." index="1"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button" type="Button" parent="." index="2"]
+layout_mode = 2
+text = "..."

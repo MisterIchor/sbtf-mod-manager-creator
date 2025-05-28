@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://b2b1kcbmfqbxk"]
+
+[ext_resource type="Script" uid="uid://c2wa7uf0csrr3" path="res://src/interactables/interactable_base.gd" id="1_ksjvn"]
+
+[node name="InteractableBase" type="HBoxContainer"]
+script = ExtResource("1_ksjvn")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+text = "Label me:"
