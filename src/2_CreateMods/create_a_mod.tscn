@@ -1,0 +1,236 @@
+[gd_scene load_steps=10 format=3 uid="uid://bwm8qupf1e1cd"]
+
+[ext_resource type="Texture2D" uid="uid://5ajieuibwb07" path="res://assets/create_a_mod_background.png" id="1_ryqji"]
+[ext_resource type="Script" uid="uid://bf05kfur2gc4v" path="res://src/2_CreateMods/create_a_mod.gd" id="1_yhad8"]
+[ext_resource type="PackedScene" uid="uid://ci4uj02mvx8ah" path="res://src/interactables/path_to/path_to_interactable.tscn" id="2_y5g7m"]
+[ext_resource type="PackedScene" uid="uid://dmld7ckabitjr" path="res://src/interactables/toggle/toggle_option_interactable.tscn" id="3_ms7mr"]
+[ext_resource type="Script" uid="uid://c25bed8ffwa82" path="res://src/2_CreateMods/action_theme.gd" id="3_ron3t"]
+[ext_resource type="PackedScene" uid="uid://birb5fh1t3r2o" path="res://src/interactables/slider/slider_interactable.tscn" id="4_ms7mr"]
+
+[sub_resource type="FontFile" id="FontFile_yhad8"]
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/1/0/ascent = 0.0
+cache/0/1/0/descent = 0.0
+cache/0/1/0/underline_position = 0.0
+cache/0/1/0/underline_thickness = 0.0
+cache/0/1/0/scale = 1.0
+cache/0/12/0/ascent = 0.0
+cache/0/12/0/descent = 0.0
+cache/0/12/0/underline_position = 0.0
+cache/0/12/0/underline_thickness = 0.0
+cache/0/12/0/scale = 1.0
+cache/0/14/0/ascent = 0.0
+cache/0/14/0/descent = 0.0
+cache/0/14/0/underline_position = 0.0
+cache/0/14/0/underline_thickness = 0.0
+cache/0/14/0/scale = 1.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_ron3t"]
+font = SubResource("FontFile_yhad8")
+font_size = 14
+
+[sub_resource type="AudioStreamSynchronized" id="AudioStreamSynchronized_yhad8"]
+stream_count = 8
+stream_0/volume = 0.0
+stream_1/volume = 0.0
+stream_2/volume = 0.0
+stream_3/volume = 0.0
+stream_4/volume = 0.0
+stream_5/volume = 0.0
+stream_6/volume = 0.0
+stream_7/volume = 0.0
+
+[node name="CreateAMod" type="Window"]
+title = "Create a Mod"
+initial_position = 1
+size = Vector2i(995, 505)
+script = ExtResource("1_yhad8")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_left = -0.446411
+offset_right = 1416.45
+offset_bottom = 505.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_ryqji")
+expand_mode = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchors_preset = -1
+anchor_left = 0.0080402
+anchor_top = 0.0118812
+anchor_right = 0.990955
+anchor_bottom = 0.994059
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "<--- Back to menu"
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Mod Name: "
+horizontal_alignment = 2
+
+[node name="ModNameLineEdit" type="LineEdit" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Mod Type:"
+horizontal_alignment = 2
+
+[node name="ModTypeOptionButton" type="OptionButton" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+alignment = 1
+selected = 0
+item_count = 3
+popup/item_0/text = "Action Theme"
+popup/item_0/id = 0
+popup/item_1/text = "Graphic Replacer"
+popup/item_1/id = 1
+popup/item_2/text = "Data Change"
+popup/item_2/id = 2
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="ToolsContainer" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="NoneSelectedLabel" type="Label" parent="VBoxContainer/ToolsContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "Select a mod type in the top-right corner to create a mod."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ActionTheme" type="HBoxContainer" parent="VBoxContainer/ToolsContainer"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("3_ron3t")
+
+[node name="SettingsContainer" type="VBoxContainer" parent="VBoxContainer/ToolsContainer/ActionTheme"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ThemeNameContainer" type="HBoxContainer" parent="VBoxContainer/ToolsContainer/ActionTheme/SettingsContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/ToolsContainer/ActionTheme/SettingsContainer/ThemeNameContainer"]
+layout_mode = 2
+text = "Theme Name: "
+
+[node name="LineEdit" type="LineEdit" parent="VBoxContainer/ToolsContainer/ActionTheme/SettingsContainer/ThemeNameContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "untitled"
+placeholder_text = "Type name here"
+
+[node name="OverwriteThemeToggle" parent="VBoxContainer/ToolsContainer/ActionTheme/SettingsContainer" instance=ExtResource("3_ms7mr")]
+layout_mode = 2
+label_name = "Overwrites existing theme"
+
+[node name="Layer0" parent="VBoxContainer/ToolsContainer/ActionTheme/SettingsContainer" instance=ExtResource("2_y5g7m")]
+layout_mode = 2
+label_name = "Layer 0"
+
+[node name="Layer1" parent="VBoxContainer/ToolsContainer/ActionTheme/SettingsContainer" instance=ExtResource("2_y5g7m")]
+layout_mode = 2
+label_name = "Layer 1"
+
+[node name="Layer2" parent="VBoxContainer/ToolsContainer/ActionTheme/SettingsContainer" instance=ExtResource("2_y5g7m")]
+layout_mode = 2
+label_name = "Layer 2"
+
+[node name="Layer3" parent="VBoxContainer/ToolsContainer/ActionTheme/SettingsContainer" instance=ExtResource("2_y5g7m")]
+layout_mode = 2
+label_name = "Layer 3"
+
+[node name="Layer4" parent="VBoxContainer/ToolsContainer/ActionTheme/SettingsContainer" instance=ExtResource("2_y5g7m")]
+layout_mode = 2
+label_name = "Layer 4"
+
+[node name="Layer5" parent="VBoxContainer/ToolsContainer/ActionTheme/SettingsContainer" instance=ExtResource("2_y5g7m")]
+layout_mode = 2
+label_name = "Layer 5"
+
+[node name="Layer6" parent="VBoxContainer/ToolsContainer/ActionTheme/SettingsContainer" instance=ExtResource("2_y5g7m")]
+layout_mode = 2
+label_name = "Layer 6"
+
+[node name="Layer7" parent="VBoxContainer/ToolsContainer/ActionTheme/SettingsContainer" instance=ExtResource("2_y5g7m")]
+layout_mode = 2
+label_name = "Layer 7"
+
+[node name="VSeparator" type="VSeparator" parent="VBoxContainer/ToolsContainer/ActionTheme"]
+layout_mode = 2
+
+[node name="TestContainer" type="VBoxContainer" parent="VBoxContainer/ToolsContainer/ActionTheme"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TestThemeToggle" parent="VBoxContainer/ToolsContainer/ActionTheme/TestContainer" instance=ExtResource("3_ms7mr")]
+layout_mode = 2
+label_name = "Test Theme"
+
+[node name="SpaceBeastSpawnedSlider" parent="VBoxContainer/ToolsContainer/ActionTheme/TestContainer" instance=ExtResource("4_ms7mr")]
+layout_mode = 2
+max_value = 32.0
+label_name = "Space Beasts Spawned"
+
+[node name="BeastDistanceToPlayerSlider" parent="VBoxContainer/ToolsContainer/ActionTheme/TestContainer" instance=ExtResource("4_ms7mr")]
+layout_mode = 2
+slider_label_prefix = "m"
+value = 10.0
+max_value = 10.0
+step = 0.1
+label_name = "Beast Distance to Player"
+
+[node name="Label" type="Label" parent="VBoxContainer/ToolsContainer/ActionTheme/TestContainer"]
+layout_mode = 2
+size_flags_vertical = 10
+text = "Note: Test tools are an approximation and may not be 100% respresentative of how your theme sounds in-game."
+label_settings = SubResource("LabelSettings_ron3t")
+horizontal_alignment = 1
+vertical_alignment = 2
+autowrap_mode = 2
+
+[node name="TestMusicPlayer" type="AudioStreamPlayer" parent="VBoxContainer/ToolsContainer/ActionTheme"]
+stream = SubResource("AudioStreamSynchronized_yhad8")
+
+[node name="HSeparator2" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="Button" type="Button" parent="VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Load Mod"
+
+[node name="Button2" type="Button" parent="VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Save Mod"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
