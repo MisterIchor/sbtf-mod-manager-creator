@@ -1,3 +1,4 @@
+class_name TextInteractable
 extends HBoxContainer
 
 signal text_set(new_text: String)
