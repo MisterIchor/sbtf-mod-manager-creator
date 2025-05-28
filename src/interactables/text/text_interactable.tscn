@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://bihl25kr2bgtl"]
+
+[ext_resource type="PackedScene" uid="uid://b2b1kcbmfqbxk" path="res://src/interactables/interactable_base.tscn" id="1_3bkb7"]
+[ext_resource type="Script" uid="uid://cux2xos2kx7os" path="res://src/interactables/text/text_interactable.gd" id="2_l7ng1"]
+
+[node name="InteractableBase" instance=ExtResource("1_3bkb7")]
+offset_right = 418.0
+offset_bottom = 31.0
+script = ExtResource("2_l7ng1")
+
+[node name="LineEdit" type="LineEdit" parent="." index="1"]
+layout_mode = 2
+size_flags_horizontal = 10
