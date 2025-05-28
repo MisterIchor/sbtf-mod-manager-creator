@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bwm8qupf1e1cd"]
+[gd_scene load_steps=13 format=3 uid="uid://bwm8qupf1e1cd"]
 
 [ext_resource type="Texture2D" uid="uid://5ajieuibwb07" path="res://assets/create_a_mod_background.png" id="1_ryqji"]
 [ext_resource type="Script" uid="uid://bf05kfur2gc4v" path="res://src/2_create_mods/create_a_mod.gd" id="1_yhad8"]
@@ -6,6 +6,9 @@
 [ext_resource type="PackedScene" uid="uid://dmld7ckabitjr" path="res://src/interactables/toggle/toggle_option_interactable.tscn" id="3_ms7mr"]
 [ext_resource type="Script" uid="uid://c25bed8ffwa82" path="res://src/2_create_mods/action_theme.gd" id="3_ron3t"]
 [ext_resource type="PackedScene" uid="uid://birb5fh1t3r2o" path="res://src/interactables/slider/slider_interactable.tscn" id="4_ms7mr"]
+[ext_resource type="Script" uid="uid://dlqthvdoid6n1" path="res://src/2_create_mods/graphic_replacer.gd" id="7_ik2tg"]
+[ext_resource type="Texture2D" uid="uid://bs7jacrdorlak" path="res://icon.svg" id="7_k024u"]
+[ext_resource type="Script" uid="uid://hlnad0xspphc" path="res://src/2_create_mods/data_change.gd" id="9_vkgb3"]
 
 [sub_resource type="FontFile" id="FontFile_yhad8"]
 cache/0/16/0/ascent = 0.0
@@ -48,6 +51,7 @@ stream_7/volume = 0.0
 title = "Create a Mod"
 initial_position = 1
 size = Vector2i(995, 505)
+unresizable = true
 script = ExtResource("1_yhad8")
 
 [node name="TextureRect" type="TextureRect" parent="."]
@@ -90,21 +94,23 @@ size_flags_horizontal = 3
 [node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Mod Type:"
+text = "Mod Tool:"
 horizontal_alignment = 2
 
-[node name="ModTypeOptionButton" type="OptionButton" parent="VBoxContainer/HBoxContainer"]
+[node name="ModToolSelection" type="OptionButton" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 alignment = 1
 selected = 0
-item_count = 3
-popup/item_0/text = "Action Theme"
+item_count = 4
+popup/item_0/text = "None Selected"
 popup/item_0/id = 0
-popup/item_1/text = "Graphic Replacer"
+popup/item_1/text = "Action Theme"
 popup/item_1/id = 1
-popup/item_2/text = "Data Change"
+popup/item_2/text = "Graphic Replacer"
 popup/item_2/id = 2
+popup/item_3/text = "Data Change"
+popup/item_3/id = 3
 
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
 layout_mode = 2
@@ -122,7 +128,6 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ActionTheme" type="HBoxContainer" parent="VBoxContainer/ToolsContainer"]
-visible = false
 layout_mode = 2
 size_flags_vertical = 3
 script = ExtResource("3_ron3t")
@@ -131,18 +136,35 @@ script = ExtResource("3_ron3t")
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="ThemeNameContainer" type="HBoxContainer" parent="VBoxContainer/ToolsContainer/ActionTheme/SettingsContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/ToolsContainer/ActionTheme/SettingsContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/ToolsContainer/ActionTheme/SettingsContainer/ThemeNameContainer"]
-layout_mode = 2
-text = "Theme Name: "
-
-[node name="LineEdit" type="LineEdit" parent="VBoxContainer/ToolsContainer/ActionTheme/SettingsContainer/ThemeNameContainer"]
+[node name="SelectedThemeOptionButton" type="OptionButton" parent="VBoxContainer/ToolsContainer/ActionTheme/SettingsContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "untitled"
-placeholder_text = "Type name here"
+alignment = 1
+
+[node name="RemoveThemeButton" type="Button" parent="VBoxContainer/ToolsContainer/ActionTheme/SettingsContainer/HBoxContainer"]
+layout_mode = 2
+disabled = true
+text = "Remove Theme"
+
+[node name="AddThemeContainer" type="HBoxContainer" parent="VBoxContainer/ToolsContainer/ActionTheme/SettingsContainer"]
+layout_mode = 2
+
+[node name="ThemeNameLineEdit" type="LineEdit" parent="VBoxContainer/ToolsContainer/ActionTheme/SettingsContainer/AddThemeContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "New theme name..."
+alignment = 1
+
+[node name="AddThemeButton" type="Button" parent="VBoxContainer/ToolsContainer/ActionTheme/SettingsContainer/AddThemeContainer"]
+layout_mode = 2
+disabled = true
+text = "Add Theme"
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer/ToolsContainer/ActionTheme/SettingsContainer"]
+layout_mode = 2
 
 [node name="OverwriteThemeToggle" parent="VBoxContainer/ToolsContainer/ActionTheme/SettingsContainer" instance=ExtResource("3_ms7mr")]
 layout_mode = 2
@@ -150,34 +172,42 @@ label_name = "Overwrites existing theme"
 
 [node name="Layer0" parent="VBoxContainer/ToolsContainer/ActionTheme/SettingsContainer" instance=ExtResource("2_y5g7m")]
 layout_mode = 2
+file_type_filter = PackedStringArray("*.wav")
 label_name = "Layer 0"
 
 [node name="Layer1" parent="VBoxContainer/ToolsContainer/ActionTheme/SettingsContainer" instance=ExtResource("2_y5g7m")]
 layout_mode = 2
+file_type_filter = PackedStringArray("*.wav")
 label_name = "Layer 1"
 
 [node name="Layer2" parent="VBoxContainer/ToolsContainer/ActionTheme/SettingsContainer" instance=ExtResource("2_y5g7m")]
 layout_mode = 2
+file_type_filter = PackedStringArray("*.wav")
 label_name = "Layer 2"
 
 [node name="Layer3" parent="VBoxContainer/ToolsContainer/ActionTheme/SettingsContainer" instance=ExtResource("2_y5g7m")]
 layout_mode = 2
+file_type_filter = PackedStringArray("*.wav")
 label_name = "Layer 3"
 
 [node name="Layer4" parent="VBoxContainer/ToolsContainer/ActionTheme/SettingsContainer" instance=ExtResource("2_y5g7m")]
 layout_mode = 2
+file_type_filter = PackedStringArray("*.wav")
 label_name = "Layer 4"
 
 [node name="Layer5" parent="VBoxContainer/ToolsContainer/ActionTheme/SettingsContainer" instance=ExtResource("2_y5g7m")]
 layout_mode = 2
+file_type_filter = PackedStringArray("*.wav")
 label_name = "Layer 5"
 
 [node name="Layer6" parent="VBoxContainer/ToolsContainer/ActionTheme/SettingsContainer" instance=ExtResource("2_y5g7m")]
 layout_mode = 2
+file_type_filter = PackedStringArray("*.wav")
 label_name = "Layer 6"
 
 [node name="Layer7" parent="VBoxContainer/ToolsContainer/ActionTheme/SettingsContainer" instance=ExtResource("2_y5g7m")]
 layout_mode = 2
+file_type_filter = PackedStringArray("*.wav")
 label_name = "Layer 7"
 
 [node name="VSeparator" type="VSeparator" parent="VBoxContainer/ToolsContainer/ActionTheme"]
@@ -216,8 +246,132 @@ autowrap_mode = 2
 [node name="TestMusicPlayer" type="AudioStreamPlayer" parent="VBoxContainer/ToolsContainer/ActionTheme"]
 stream = SubResource("AudioStreamSynchronized_yhad8")
 
-[node name="GraphicReplacer" type="HBoxContainer" parent="VBoxContainer/ToolsContainer"]
+[node name="GraphicReplacer" type="HSplitContainer" parent="VBoxContainer/ToolsContainer"]
+visible = false
 layout_mode = 2
+script = ExtResource("7_ik2tg")
+
+[node name="FileSelector" type="VBoxContainer" parent="VBoxContainer/ToolsContainer/GraphicReplacer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="VBoxContainer/ToolsContainer/GraphicReplacer/FileSelector"]
+layout_mode = 2
+text = "Files"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer/ToolsContainer/GraphicReplacer/FileSelector"]
+layout_mode = 2
+
+[node name="VSplitContainer" type="VSplitContainer" parent="VBoxContainer/ToolsContainer/GraphicReplacer/FileSelector"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="FileList" type="ItemList" parent="VBoxContainer/ToolsContainer/GraphicReplacer/FileSelector/VSplitContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+allow_reselect = true
+
+[node name="ReplacerList" type="ItemList" parent="VBoxContainer/ToolsContainer/GraphicReplacer/FileSelector/VSplitContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+allow_reselect = true
+
+[node name="ClearReplacerButton" type="Button" parent="VBoxContainer/ToolsContainer/GraphicReplacer/FileSelector"]
+layout_mode = 2
+disabled = true
+text = "Clear Replacer"
+
+[node name="GraphicsDisplay" type="VBoxContainer" parent="VBoxContainer/ToolsContainer/GraphicReplacer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="VBoxContainer/ToolsContainer/GraphicReplacer/GraphicsDisplay"]
+layout_mode = 2
+text = "Selected File"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer/ToolsContainer/GraphicReplacer/GraphicsDisplay"]
+layout_mode = 2
+
+[node name="SelectedFileTexture" type="TextureRect" parent="VBoxContainer/ToolsContainer/GraphicReplacer/GraphicsDisplay"]
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("7_k024u")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="HSeparator3" type="HSeparator" parent="VBoxContainer/ToolsContainer/GraphicReplacer/GraphicsDisplay"]
+layout_mode = 2
+
+[node name="ReplacerTexture" type="TextureRect" parent="VBoxContainer/ToolsContainer/GraphicReplacer/GraphicsDisplay"]
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("7_k024u")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label2" type="Label" parent="VBoxContainer/ToolsContainer/GraphicReplacer/GraphicsDisplay"]
+layout_mode = 2
+text = "Replacer"
+horizontal_alignment = 1
+
+[node name="HSeparator2" type="HSeparator" parent="VBoxContainer/ToolsContainer/GraphicReplacer/GraphicsDisplay"]
+layout_mode = 2
+
+[node name="ReplacerPath" parent="VBoxContainer/ToolsContainer/GraphicReplacer/GraphicsDisplay" instance=ExtResource("2_y5g7m")]
+layout_mode = 2
+file_type_filter = PackedStringArray("*.tga")
+label_name = "Replace selected with"
+
+[node name="DataChange" type="HBoxContainer" parent="VBoxContainer/ToolsContainer"]
+visible = false
+layout_mode = 2
+script = ExtResource("9_vkgb3")
+
+[node name="DataFiles" type="VBoxContainer" parent="VBoxContainer/ToolsContainer/DataChange"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.15
+
+[node name="Label" type="Label" parent="VBoxContainer/ToolsContainer/DataChange/DataFiles"]
+layout_mode = 2
+text = "Data Files"
+horizontal_alignment = 1
+
+[node name="HSeparator2" type="HSeparator" parent="VBoxContainer/ToolsContainer/DataChange/DataFiles"]
+layout_mode = 2
+
+[node name="DataFilesList" type="ItemList" parent="VBoxContainer/ToolsContainer/DataChange/DataFiles"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+item_count = 3
+item_0/text = "/data.txt"
+item_1/text = "/hudicons.txt"
+item_2/text = "/styles_pub.txt"
+
+[node name="DataProperties" type="VBoxContainer" parent="VBoxContainer/ToolsContainer/DataChange"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="VBoxContainer/ToolsContainer/DataChange/DataProperties"]
+layout_mode = 2
+text = "Data Properties"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer/ToolsContainer/DataChange/DataProperties"]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/ToolsContainer/DataChange/DataProperties"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="DataPropertyList" type="VBoxContainer" parent="VBoxContainer/ToolsContainer/DataChange/DataProperties/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="HSeparator2" type="HSeparator" parent="VBoxContainer"]
 layout_mode = 2
