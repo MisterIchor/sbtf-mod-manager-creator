@@ -161,3 +161,8 @@ func _on_ClearReplacerButton_pressed() -> void:
 	_update_visual(metadata)
 	_data.erase(metadata.path_to)
 	data_changed.emit(_data)
+	
+	if replacer_list.item_count == 0:
+		clear_replacer_button.disabled = true
+	else:
+		replacer_list.select(replacer_list.get_selected_items()[0])
