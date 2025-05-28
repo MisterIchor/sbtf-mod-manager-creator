@@ -15,6 +15,11 @@ func _ready() -> void:
 
 
 func _on_OKButton_pressed() -> void:
+	if not SBTFTool.verify_nwf() == 0:
+		var prompt: AcceptDialog = Prompt.invalid_file.instantiate()
+		prompt.popup_exclusive_centered(self)
+		return
+	
 	Config.path_to_nwf = path_to_line_edit.text
 	queue_free()
 
