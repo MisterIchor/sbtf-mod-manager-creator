@@ -1,6 +1,6 @@
 extends Node
 
-const DEFAULT_PATH: String = "res://sbtf_mod_manager.cfg"
+const DEFAULT_PATH: String = "user://sbtf_mod_manager.cfg"
 
 var path_to_nwf: String = ""
 var nwf: FileAccess = null
