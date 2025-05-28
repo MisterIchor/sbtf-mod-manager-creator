@@ -1,10 +1,10 @@
 [gd_scene load_steps=10 format=3 uid="uid://bwm8qupf1e1cd"]
 
 [ext_resource type="Texture2D" uid="uid://5ajieuibwb07" path="res://assets/create_a_mod_background.png" id="1_ryqji"]
-[ext_resource type="Script" uid="uid://bf05kfur2gc4v" path="res://src/2_CreateMods/create_a_mod.gd" id="1_yhad8"]
+[ext_resource type="Script" uid="uid://bf05kfur2gc4v" path="res://src/2_create_mods/create_a_mod.gd" id="1_yhad8"]
 [ext_resource type="PackedScene" uid="uid://ci4uj02mvx8ah" path="res://src/interactables/path_to/path_to_interactable.tscn" id="2_y5g7m"]
 [ext_resource type="PackedScene" uid="uid://dmld7ckabitjr" path="res://src/interactables/toggle/toggle_option_interactable.tscn" id="3_ms7mr"]
-[ext_resource type="Script" uid="uid://c25bed8ffwa82" path="res://src/2_CreateMods/action_theme.gd" id="3_ron3t"]
+[ext_resource type="Script" uid="uid://c25bed8ffwa82" path="res://src/2_create_mods/action_theme.gd" id="3_ron3t"]
 [ext_resource type="PackedScene" uid="uid://birb5fh1t3r2o" path="res://src/interactables/slider/slider_interactable.tscn" id="4_ms7mr"]
 
 [sub_resource type="FontFile" id="FontFile_yhad8"]
@@ -114,6 +114,7 @@ layout_mode = 2
 size_flags_vertical = 3
 
 [node name="NoneSelectedLabel" type="Label" parent="VBoxContainer/ToolsContainer"]
+visible = false
 layout_mode = 2
 size_flags_vertical = 1
 text = "Select a mod type in the top-right corner to create a mod."
@@ -214,6 +215,9 @@ autowrap_mode = 2
 
 [node name="TestMusicPlayer" type="AudioStreamPlayer" parent="VBoxContainer/ToolsContainer/ActionTheme"]
 stream = SubResource("AudioStreamSynchronized_yhad8")
+
+[node name="GraphicReplacer" type="HBoxContainer" parent="VBoxContainer/ToolsContainer"]
+layout_mode = 2
 
 [node name="HSeparator2" type="HSeparator" parent="VBoxContainer"]
 layout_mode = 2

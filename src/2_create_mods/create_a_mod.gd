@@ -16,19 +16,20 @@ var data: Dictionary = {}
 
 
 func _ready() -> void:
-	if not SBTFTool.verify_nwf() == 0:
-		var prompt: Window = Prompt.nwf_path.instantiate()
-		prompt.popup_exclusive_centered(self)
-		
-		while true:
-			await prompt.close_requested
+	if not Engine.is_editor_hint():
+		if not SBTFTool.verify_nwf() == 0:
+			var prompt: Window = Prompt.nwf_path.instantiate()
+			prompt.popup_exclusive_centered(self)
 			
-			if not Config.path_to_nwf.is_empty():
-				if not SBTFTool.verify_nwf() == 0:
-					break
-			
-			prompt = Prompt.nwf_path.instantiate()
-			prompt.popup_exclusive(self)
+			while true:
+				await prompt.close_requested
+				
+				if not Config.path_to_nwf.is_empty():
+					if not SBTFTool.verify_nwf() == 0:
+						break
+				
+				prompt = Prompt.nwf_path.instantiate()
+				prompt.popup_exclusive(self)
 	
 	mod_name_line_edit.text_submitted.connect(_on_ModNameLineEdit_text_submitted)
 	mod_type_option_button.item_selected.connect(_on_ModTypeOptionButton_item_selected)
