@@ -11,7 +11,7 @@ signal data_changed(new_data: Dictionary)
 
 var _list: ItemList = null
 var _data: Dictionary = {}
-
+var _initialized: bool = false
 
 
 func _ready() -> void:
@@ -70,7 +70,7 @@ func _update_list() -> void:
 
 
 func _on_visibility_changed() -> void:
-	if not is_visible_in_tree():
+	if not is_visible_in_tree() or _initialized:
 		return
 	
 	var output_dir: DirAccess = DirAccess.open(SBTFTool.OUTPUT_PATH)
@@ -115,6 +115,7 @@ func _on_visibility_changed() -> void:
 		})
 	
 	file_list.sort_items_by_text()
+	_initialized = true
 
 
 func _on_item_selected(idx: int, item_list: ItemList) -> void:
