@@ -125,7 +125,6 @@ layout_mode = 2
 size_flags_vertical = 3
 
 [node name="NoneSelectedLabel" type="Label" parent="VBoxContainer/ToolsContainer"]
-visible = false
 layout_mode = 2
 size_flags_vertical = 1
 text = "Select a mod type in the top-right corner to create a mod."
@@ -181,38 +180,43 @@ size_flags_horizontal = 3
 
 [node name="Layer0" parent="VBoxContainer/ToolsContainer/ActionTheme/ThemeSettingsContainer/LayerSettings" instance=ExtResource("2_y5g7m")]
 layout_mode = 2
+file_type_filter = PackedStringArray("*wav")
 label_name = "Layer 0"
 
 [node name="Layer1" parent="VBoxContainer/ToolsContainer/ActionTheme/ThemeSettingsContainer/LayerSettings" instance=ExtResource("2_y5g7m")]
 layout_mode = 2
+file_type_filter = PackedStringArray("*wav")
 label_name = "Layer 1"
 
 [node name="Layer2" parent="VBoxContainer/ToolsContainer/ActionTheme/ThemeSettingsContainer/LayerSettings" instance=ExtResource("2_y5g7m")]
 layout_mode = 2
+file_type_filter = PackedStringArray("*wav")
 label_name = "Layer 2"
 
 [node name="Layer3" parent="VBoxContainer/ToolsContainer/ActionTheme/ThemeSettingsContainer/LayerSettings" instance=ExtResource("2_y5g7m")]
 layout_mode = 2
+file_type_filter = PackedStringArray("*wav")
 label_name = "Layer 3"
 
 [node name="Layer4" parent="VBoxContainer/ToolsContainer/ActionTheme/ThemeSettingsContainer/LayerSettings" instance=ExtResource("2_y5g7m")]
 layout_mode = 2
+file_type_filter = PackedStringArray("*wav")
 label_name = "Layer 4"
 
 [node name="Layer5" parent="VBoxContainer/ToolsContainer/ActionTheme/ThemeSettingsContainer/LayerSettings" instance=ExtResource("2_y5g7m")]
 layout_mode = 2
+file_type_filter = PackedStringArray("*wav")
 label_name = "Layer 5"
 
 [node name="Layer6" parent="VBoxContainer/ToolsContainer/ActionTheme/ThemeSettingsContainer/LayerSettings" instance=ExtResource("2_y5g7m")]
 layout_mode = 2
+file_type_filter = PackedStringArray("*wav")
 label_name = "Layer 6"
 
 [node name="Layer7" parent="VBoxContainer/ToolsContainer/ActionTheme/ThemeSettingsContainer/LayerSettings" instance=ExtResource("2_y5g7m")]
 layout_mode = 2
+file_type_filter = PackedStringArray("*wav")
 label_name = "Layer 7"
-
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/ToolsContainer/ActionTheme/ThemeSettingsContainer/LayerSettings"]
-layout_mode = 2
 
 [node name="VSeparator" type="VSeparator" parent="VBoxContainer/ToolsContainer/ActionTheme/ThemeSettingsContainer"]
 layout_mode = 2
@@ -326,6 +330,7 @@ file_type_filter = PackedStringArray("*.tga")
 label_name = "Replace selected with"
 
 [node name="AudioReplacer" type="HSplitContainer" parent="VBoxContainer/ToolsContainer"]
+visible = false
 layout_mode = 2
 script = ExtResource("10_yydyf")
 
