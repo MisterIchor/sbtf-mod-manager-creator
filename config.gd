@@ -59,9 +59,11 @@ static func _load() -> Error:
 	mod_order.resize(config.get_section_keys("Mod Order").size())
 	
 	for i in config.get_section_keys("Mod Order"):
-		mod_order[int(i)].path = config.get_value("Mod Order", i, "nil")
-	
-	for i in config.get_section_keys("Mods Enabled"):
-		mod_order[int(i)].enabled = config.get_value("Mods Enabled", i, true)
+		var path: String = config.get_value("Mod Order", i, "nil")
+		var file_exists: bool = DirAccess.dir_exists_absolute(path)
+		
+		if file_exists:
+			mod_order[int(i)].path = path
+			mod_order[int(i)].enabled = config.get_value("Mod Enabled", i, true)
 	
 	return err_code
