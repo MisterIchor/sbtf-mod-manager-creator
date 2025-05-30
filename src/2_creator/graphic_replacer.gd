@@ -2,7 +2,7 @@ extends HSplitContainer
 
 signal data_changed(new_data: Dictionary)
 
-@onready var replacer_path: PathToInteractable = $GraphicsDisplay/ReplacerPath
+@onready var replacer_path: InteractableBase = $GraphicsDisplay/ReplacerPath
 @onready var selected_file_texture: TextureRect = $GraphicsDisplay/SelectedFileTexture
 @onready var replacer_texture: TextureRect = $GraphicsDisplay/ReplacerTexture
 @onready var file_list: ItemList = $FileSelector/VSplitContainer/FileList
