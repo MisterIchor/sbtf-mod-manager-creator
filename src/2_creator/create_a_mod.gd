@@ -1,6 +1,6 @@
 extends Window
 
-enum ModeToolSelection {NONE_SELECTED, ACTION_THEME, GRAPHICS_REPLACER, AUDIO_REPLACER, DATA_CHANGER}
+enum ModeToolSelection {NONE_SELECTED, ACTION_THEME, GRAPHICS_REPLACER, AUDIO_REPLACER, DATA_CHANGER, MOD_DESCRIPTION}
 
 var mod_name: String = "Untitled"
 var type: ModeToolSelection = ModeToolSelection.NONE_SELECTED
@@ -17,23 +17,24 @@ var data: Dictionary = {}
 @onready var audio_replacer: HSplitContainer = $VBoxContainer/ToolsContainer/AudioReplacer
 @onready var save_mod_button: Button = $VBoxContainer/SaveLoadContainer/SaveModButton
 @onready var load_mod_button: Button = $VBoxContainer/SaveLoadContainer/LoadModButton
+@onready var mod_description: TextEdit = $VBoxContainer/ToolsContainer/ModDescription
 
 
 
 func _ready() -> void:
-	if not SBTFTool.verify_nwf() == 0:
-		var prompt: Window = Prompt.nwf_path.instantiate()
-		prompt.popup_exclusive_centered(self)
-		
-		while true:
-			await prompt.close_requested
-			
-			if not Config.path_to_nwf.is_empty():
-				if not SBTFTool.verify_nwf() == 0:
-					break
-			
-			prompt = Prompt.nwf_path.instantiate()
-			prompt.popup_exclusive(self)
+	#if not SBTFTool.verify_nwf() == 0:
+		#var prompt: Window = Prompt.nwf_path.instantiate()
+		#prompt.popup_exclusive_centered(self)
+		#
+		#while true:
+			#await prompt.close_requested
+			#
+			#if not Config.path_to_nwf.is_empty():
+				#if not SBTFTool.verify_nwf() == 0:
+					#break
+			#
+			#prompt = Prompt.nwf_path.instantiate()
+			#prompt.popup_exclusive(self)
 	
 	mod_name_line_edit.text_submitted.connect(_on_ModNameLineEdit_text_submitted)
 	mod_tool_selection.item_selected.connect(_on_ModToolSelection_item_selected)
@@ -42,6 +43,7 @@ func _ready() -> void:
 	graphic_replacer.data_changed.connect(_on_data_changed.bind("graphic"))
 	data_change.data_changed.connect(_on_data_changed.bind("data"))
 	audio_replacer.data_changed.connect(_on_data_changed.bind("audio"))
+	mod_description.data_changed.connect(_on_data_changed.bind("description"))
 
 
 
@@ -123,12 +125,18 @@ func compile_mod() -> void:
 					zip_packer.write_file(schema_string.to_utf8_buffer())
 					zip_packer.close_file()
 			"data":
+				zip_packer.start_file("data_changes.txt")
+				
 				for data in section:
 					var line: Dictionary = section[data]
-					
-					zip_packer.start_file("data_changes.txt")
 					zip_packer.write_file(str(line.value, "/", line.line_position, "\n").to_utf8_buffer())
-					zip_packer.close_file()
+				
+				zip_packer.close_file()
+			"description":
+				zip_packer.start_file("description.txt")
+				zip_packer.write_file(str(mod_name, "\n").to_utf8_buffer())
+				zip_packer.write_file(section.text.to_utf8_buffer())
+				zip_packer.close_file()
 	
 	zip_packer.close()
 
@@ -159,3 +167,5 @@ func _on_ModToolSelection_item_selected(new_option: int) -> void:
 			audio_replacer.show()
 		ModeToolSelection.DATA_CHANGER:
 			data_change.show()
+		ModeToolSelection.MOD_DESCRIPTION:
+			mod_description.show()

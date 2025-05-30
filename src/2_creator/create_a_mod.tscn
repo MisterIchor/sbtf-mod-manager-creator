@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bwm8qupf1e1cd"]
+[gd_scene load_steps=16 format=3 uid="uid://bwm8qupf1e1cd"]
 
 [ext_resource type="Texture2D" uid="uid://5ajieuibwb07" path="res://assets/create_a_mod_background.png" id="1_ryqji"]
 [ext_resource type="Script" uid="uid://bf05kfur2gc4v" path="res://src/2_creator/create_a_mod.gd" id="1_yhad8"]
@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://hlnad0xspphc" path="res://src/2_creator/data_change.gd" id="9_vkgb3"]
 [ext_resource type="Script" uid="uid://bsrc86lbocgik" path="res://src/2_creator/audio_replacer.gd" id="10_yydyf"]
 [ext_resource type="PackedScene" uid="uid://bwwpjjk63brog" path="res://src/interactables/audio/audio_interactable.tscn" id="11_kdtjs"]
+[ext_resource type="Script" uid="uid://bf3qqimd2hf3p" path="res://src/2_creator/mod_description.gd" id="12_g0mxa"]
 
 [sub_resource type="AudioStreamSynchronized" id="AudioStreamSynchronized_yhad8"]
 stream_count = 8
@@ -105,7 +106,7 @@ layout_mode = 2
 size_flags_horizontal = 0
 alignment = 1
 selected = 0
-item_count = 5
+item_count = 6
 popup/item_0/text = "None Selected"
 popup/item_0/id = 0
 popup/item_1/text = "Action Theme"
@@ -116,6 +117,8 @@ popup/item_3/text = "Audio Replacer"
 popup/item_3/id = 4
 popup/item_4/text = "Data Change"
 popup/item_4/id = 3
+popup/item_5/text = "Mod Description"
+popup/item_5/id = 5
 
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
 layout_mode = 2
@@ -125,6 +128,7 @@ layout_mode = 2
 size_flags_vertical = 3
 
 [node name="NoneSelectedLabel" type="Label" parent="VBoxContainer/ToolsContainer"]
+visible = false
 layout_mode = 2
 size_flags_vertical = 1
 text = "Select a mod type in the top-right corner to create a mod."
@@ -439,6 +443,13 @@ horizontal_scroll_mode = 0
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+
+[node name="ModDescription" type="TextEdit" parent="VBoxContainer/ToolsContainer"]
+layout_mode = 2
+placeholder_text = "Describe your mod here..."
+wrap_mode = 1
+autowrap_mode = 2
+script = ExtResource("12_g0mxa")
 
 [node name="HSeparator2" type="HSeparator" parent="VBoxContainer"]
 layout_mode = 2
