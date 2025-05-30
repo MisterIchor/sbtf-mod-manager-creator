@@ -1,28 +1,29 @@
-extends Node
+class_name Config
+extends Object
 
 const DEFAULT_PATH: String = "user://sbtf_mod_manager.cfg"
 
-var path_to_nwf: String = "":
+static var path_to_nwf: String = "":
 	set(value):
 		path_to_nwf = value
 		save()
-var mods_folder: String = "":
+static var mods_folder: String = "":
 	set(value):
 		mods_folder = value
 		save()
-var mod_order: PackedStringArray = []:
+static var mod_order: PackedStringArray = []:
 	set(value):
 		mod_order = value
 		save()
 
 
 
-func create() -> Error:
+static func create() -> Error:
 	var config: ConfigFile = ConfigFile.new()
 	return config.save(DEFAULT_PATH)
 
 
-func save() -> Error:
+static func save() -> Error:
 	var config: ConfigFile = ConfigFile.new()
 	var err_code: int = config.load(DEFAULT_PATH)
 	
@@ -38,7 +39,7 @@ func save() -> Error:
 	return err_code
 
 
-func load() -> Error:
+static func load() -> Error:
 	var config: ConfigFile = ConfigFile.new()
 	var err_code: Error = config.load(DEFAULT_PATH)
 	
