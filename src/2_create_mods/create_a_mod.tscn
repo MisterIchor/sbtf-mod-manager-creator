@@ -139,7 +139,6 @@ size_flags_vertical = 3
 script = ExtResource("3_ron3t")
 
 [node name="GlobalThemeSettingsContainer" type="HBoxContainer" parent="VBoxContainer/ToolsContainer/ActionTheme"]
-visible = false
 layout_mode = 2
 
 [node name="SelectedThemeOptionButton" type="OptionButton" parent="VBoxContainer/ToolsContainer/ActionTheme/GlobalThemeSettingsContainer"]
@@ -173,6 +172,7 @@ layout_mode = 2
 stream = SubResource("AudioStreamSynchronized_yhad8")
 
 [node name="ThemeSettingsContainer" type="HBoxContainer" parent="VBoxContainer/ToolsContainer/ActionTheme"]
+visible = false
 layout_mode = 2
 
 [node name="LayerSettings" type="VBoxContainer" parent="VBoxContainer/ToolsContainer/ActionTheme/ThemeSettingsContainer"]
