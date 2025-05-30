@@ -3,16 +3,13 @@ extends Node
 const DEFAULT_PATH: String = "user://sbtf_mod_manager.cfg"
 
 var path_to_nwf: String = ""
-var nwf: FileAccess = null
-var mods: PackedStringArray = []
+var mods_folder: String = ""
+var mod_order: PackedStringArray = []
 
 
 
 func create() -> Error:
 	var config: ConfigFile = ConfigFile.new()
-	
-	config.set_value("General", "path_to_nwf", path_to_nwf)
-	config.set_value("Mods", str("mod[0]"), null)
 	return config.save(DEFAULT_PATH)
 
 
@@ -25,8 +22,8 @@ func save() -> Error:
 	
 	config.set_value("General", "path_to_nwf", path_to_nwf)
 	
-	for i in mods.size():
-		config.set_value("Mods", str("mod[", i, "]"), mods[i])
+	for i in mod_order.size():
+		config.set_value("Mod Order", str("mod[", i, "]"), mod_order[i])
 	
 	return err_code
 
@@ -38,10 +35,10 @@ func load() -> Error:
 	if not err_code == OK:
 		return err_code
 	
-	mods.clear()
+	mod_order.clear()
 	path_to_nwf = config.get_value("General", "path_to_nwf")
 	
-	for i in config.get_section_keys("Mods"):
-		mods.append(config.get_value("Mods", i))
+	for i in config.get_section_keys("Mod Order"):
+		mod_order.append(config.get_value("Mod Order", i))
 	
 	return err_code
