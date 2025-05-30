@@ -18,17 +18,8 @@ static var mod_order: PackedStringArray = []:
 
 
 
-static func create() -> Error:
-	var config: ConfigFile = ConfigFile.new()
-	return config.save(DEFAULT_PATH)
-
-
 static func save() -> Error:
 	var config: ConfigFile = ConfigFile.new()
-	var err_code: int = config.load(DEFAULT_PATH)
-	
-	if not err_code == OK:
-		return err_code
 	
 	config.set_value("General", "path_to_nwf", path_to_nwf)
 	config.set_value("General", "mods_folder", mods_folder)
@@ -36,7 +27,7 @@ static func save() -> Error:
 	for i in mod_order.size():
 		config.set_value("Mod Order", str("mod[", i, "]"), mod_order[i])
 	
-	return err_code
+	return config.save(DEFAULT_PATH)
 
 
 static func load() -> Error:
