@@ -6,21 +6,26 @@ const DEFAULT_PATH: String = "user://sbtf_mod_manager.cfg"
 static var path_to_nwf: String = "":
 	set(value):
 		path_to_nwf = value
-		save()
+		_save()
 static var mods_folder: String = "":
 	set(value):
 		mods_folder = value
-		save()
-static var mod_order: Dictionary[String, bool] = {}:
+		_save()
+static var mod_order: Array[Dictionary] = []:
 	set(value):
 		mod_order = value
-		save()
+		_save()
 
 static var _is_save_queued: bool = false
 
 
 
-static func save() -> void:
+static func _static_init() -> void:
+	_load()
+
+
+
+static func _save() -> void:
 	if _is_save_queued:
 		return
 	
@@ -33,16 +38,16 @@ static func save() -> void:
 	config.set_value("General", "mods_folder", mods_folder)
 	
 	for i in mod_order.size():
-		config.set_value("Mod Order", str("mod[", i, "]"), mod_order.keys()[i])
+		config.set_value("Mod Order", str(i), mod_order[i].path)
 	
 	for i in mod_order.size():
-		config.set_value("Mods Enabled", str(i), mod_order.values()[i])
+		config.set_value("Mods Enabled", str(i), mod_order[i].enabled)
 	
 	_is_save_queued = false
 	config.save(DEFAULT_PATH)
 
 
-static func load() -> Error:
+static func _load() -> Error:
 	var config: ConfigFile = ConfigFile.new()
 	var err_code: Error = config.load(DEFAULT_PATH)
 	
@@ -51,11 +56,12 @@ static func load() -> Error:
 	
 	path_to_nwf = config.get_value("General", "path_to_nwf")
 	mods_folder = config.get_value("General", "mods_folder")
+	mod_order.resize(config.get_section_keys("Mod Order").size())
 	
 	for i in config.get_section_keys("Mod Order"):
-		mod_order[config.get_value("Mod Order", i, "nil")] = true
+		mod_order[int(i)].path = config.get_value("Mod Order", i, "nil")
 	
 	for i in config.get_section_keys("Mods Enabled"):
-		mod_order[mod_order.keys()[int(i)]] = config.get_value("Mods Enabled", i, true)
+		mod_order[int(i)].enabled = config.get_value("Mods Enabled", i, true)
 	
 	return err_code
