@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bwm8qupf1e1cd"]
+[gd_scene load_steps=15 format=3 uid="uid://bwm8qupf1e1cd"]
 
 [ext_resource type="Texture2D" uid="uid://5ajieuibwb07" path="res://assets/create_a_mod_background.png" id="1_ryqji"]
 [ext_resource type="Script" uid="uid://bf05kfur2gc4v" path="res://src/2_create_mods/create_a_mod.gd" id="1_yhad8"]
@@ -9,6 +9,8 @@
 [ext_resource type="Script" uid="uid://dlqthvdoid6n1" path="res://src/2_create_mods/graphic_replacer.gd" id="7_ik2tg"]
 [ext_resource type="Texture2D" uid="uid://bs7jacrdorlak" path="res://icon.svg" id="7_k024u"]
 [ext_resource type="Script" uid="uid://hlnad0xspphc" path="res://src/2_create_mods/data_change.gd" id="9_vkgb3"]
+[ext_resource type="Script" uid="uid://bsrc86lbocgik" path="res://src/2_create_mods/audio_replacer.gd" id="10_yydyf"]
+[ext_resource type="PackedScene" uid="uid://bwwpjjk63brog" path="res://src/interactables/audio/audio_interactable.tscn" id="11_kdtjs"]
 
 [sub_resource type="AudioStreamSynchronized" id="AudioStreamSynchronized_yhad8"]
 stream_count = 8
@@ -90,6 +92,7 @@ horizontal_alignment = 2
 [node name="ModNameLineEdit" type="LineEdit" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+text = "Untitled"
 
 [node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
@@ -102,15 +105,17 @@ layout_mode = 2
 size_flags_horizontal = 0
 alignment = 1
 selected = 0
-item_count = 4
+item_count = 5
 popup/item_0/text = "None Selected"
 popup/item_0/id = 0
 popup/item_1/text = "Action Theme"
 popup/item_1/id = 1
 popup/item_2/text = "Graphic Replacer"
 popup/item_2/id = 2
-popup/item_3/text = "Data Change"
-popup/item_3/id = 3
+popup/item_3/text = "Audio Replacer"
+popup/item_3/id = 4
+popup/item_4/text = "Data Change"
+popup/item_4/id = 3
 
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
 layout_mode = 2
@@ -128,6 +133,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ActionTheme" type="VBoxContainer" parent="VBoxContainer/ToolsContainer"]
+visible = false
 layout_mode = 2
 size_flags_vertical = 3
 script = ExtResource("3_ron3t")
@@ -166,55 +172,42 @@ layout_mode = 2
 stream = SubResource("AudioStreamSynchronized_yhad8")
 
 [node name="ThemeSettingsContainer" type="HBoxContainer" parent="VBoxContainer/ToolsContainer/ActionTheme"]
-visible = false
 layout_mode = 2
 
 [node name="LayerSettings" type="VBoxContainer" parent="VBoxContainer/ToolsContainer/ActionTheme/ThemeSettingsContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="OverwriteThemeToggle" parent="VBoxContainer/ToolsContainer/ActionTheme/ThemeSettingsContainer/LayerSettings" instance=ExtResource("3_ms7mr")]
-layout_mode = 2
-label_name = "Overwrites existing theme"
-
 [node name="Layer0" parent="VBoxContainer/ToolsContainer/ActionTheme/ThemeSettingsContainer/LayerSettings" instance=ExtResource("2_y5g7m")]
 layout_mode = 2
-file_type_filter = PackedStringArray("*.wav")
 label_name = "Layer 0"
 
 [node name="Layer1" parent="VBoxContainer/ToolsContainer/ActionTheme/ThemeSettingsContainer/LayerSettings" instance=ExtResource("2_y5g7m")]
 layout_mode = 2
-file_type_filter = PackedStringArray("*.wav")
 label_name = "Layer 1"
 
 [node name="Layer2" parent="VBoxContainer/ToolsContainer/ActionTheme/ThemeSettingsContainer/LayerSettings" instance=ExtResource("2_y5g7m")]
 layout_mode = 2
-file_type_filter = PackedStringArray("*.wav")
 label_name = "Layer 2"
 
 [node name="Layer3" parent="VBoxContainer/ToolsContainer/ActionTheme/ThemeSettingsContainer/LayerSettings" instance=ExtResource("2_y5g7m")]
 layout_mode = 2
-file_type_filter = PackedStringArray("*.wav")
 label_name = "Layer 3"
 
 [node name="Layer4" parent="VBoxContainer/ToolsContainer/ActionTheme/ThemeSettingsContainer/LayerSettings" instance=ExtResource("2_y5g7m")]
 layout_mode = 2
-file_type_filter = PackedStringArray("*.wav")
 label_name = "Layer 4"
 
 [node name="Layer5" parent="VBoxContainer/ToolsContainer/ActionTheme/ThemeSettingsContainer/LayerSettings" instance=ExtResource("2_y5g7m")]
 layout_mode = 2
-file_type_filter = PackedStringArray("*.wav")
 label_name = "Layer 5"
 
 [node name="Layer6" parent="VBoxContainer/ToolsContainer/ActionTheme/ThemeSettingsContainer/LayerSettings" instance=ExtResource("2_y5g7m")]
 layout_mode = 2
-file_type_filter = PackedStringArray("*.wav")
 label_name = "Layer 6"
 
 [node name="Layer7" parent="VBoxContainer/ToolsContainer/ActionTheme/ThemeSettingsContainer/LayerSettings" instance=ExtResource("2_y5g7m")]
 layout_mode = 2
-file_type_filter = PackedStringArray("*.wav")
 label_name = "Layer 7"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/ToolsContainer/ActionTheme/ThemeSettingsContainer/LayerSettings"]
@@ -331,6 +324,67 @@ layout_mode = 2
 file_type_filter = PackedStringArray("*.tga")
 label_name = "Replace selected with"
 
+[node name="AudioReplacer" type="HSplitContainer" parent="VBoxContainer/ToolsContainer"]
+layout_mode = 2
+script = ExtResource("10_yydyf")
+
+[node name="FileSelector" type="VBoxContainer" parent="VBoxContainer/ToolsContainer/AudioReplacer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="VBoxContainer/ToolsContainer/AudioReplacer/FileSelector"]
+layout_mode = 2
+text = "Files"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer/ToolsContainer/AudioReplacer/FileSelector"]
+layout_mode = 2
+
+[node name="VSplitContainer" type="VSplitContainer" parent="VBoxContainer/ToolsContainer/AudioReplacer/FileSelector"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="FileList" type="ItemList" parent="VBoxContainer/ToolsContainer/AudioReplacer/FileSelector/VSplitContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+allow_reselect = true
+
+[node name="ReplacerList" type="ItemList" parent="VBoxContainer/ToolsContainer/AudioReplacer/FileSelector/VSplitContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+allow_reselect = true
+
+[node name="ClearReplacerButton" type="Button" parent="VBoxContainer/ToolsContainer/AudioReplacer/FileSelector"]
+layout_mode = 2
+disabled = true
+text = "Clear Replacer"
+
+[node name="AudioSection" type="VBoxContainer" parent="VBoxContainer/ToolsContainer/AudioReplacer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="VBoxContainer/ToolsContainer/AudioReplacer/AudioSection"]
+layout_mode = 2
+text = "Audio"
+horizontal_alignment = 1
+
+[node name="HSeparator2" type="HSeparator" parent="VBoxContainer/ToolsContainer/AudioReplacer/AudioSection"]
+layout_mode = 2
+
+[node name="SelectedAudioInteractable" parent="VBoxContainer/ToolsContainer/AudioReplacer/AudioSection" instance=ExtResource("11_kdtjs")]
+layout_mode = 2
+label_name = "Selected Audio"
+
+[node name="ReplacerAudioInteractable" parent="VBoxContainer/ToolsContainer/AudioReplacer/AudioSection" instance=ExtResource("11_kdtjs")]
+layout_mode = 2
+label_name = "Replacer Audio"
+
+[node name="ReplacerPath" parent="VBoxContainer/ToolsContainer/AudioReplacer/AudioSection" instance=ExtResource("2_y5g7m")]
+layout_mode = 2
+size_flags_vertical = 10
+file_type_filter = PackedStringArray("*.wav")
+label_name = "Replace selected with"
+
 [node name="DataChange" type="HBoxContainer" parent="VBoxContainer/ToolsContainer"]
 visible = false
 layout_mode = 2
@@ -383,16 +437,16 @@ size_flags_vertical = 3
 [node name="HSeparator2" type="HSeparator" parent="VBoxContainer"]
 layout_mode = 2
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+[node name="SaveLoadContainer" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 8
 
-[node name="Button" type="Button" parent="VBoxContainer/HBoxContainer2"]
+[node name="LoadModButton" type="Button" parent="VBoxContainer/SaveLoadContainer"]
 layout_mode = 2
 size_flags_horizontal = 6
 text = "Load Mod"
 
-[node name="Button2" type="Button" parent="VBoxContainer/HBoxContainer2"]
+[node name="SaveModButton" type="Button" parent="VBoxContainer/SaveLoadContainer"]
 layout_mode = 2
 size_flags_horizontal = 6
 text = "Save Mod"
