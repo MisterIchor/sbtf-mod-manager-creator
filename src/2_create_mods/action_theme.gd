@@ -32,6 +32,7 @@ func _ready() -> void:
 	for i in layers:
 		i.path_set.connect(_on_Layer_path_set.bind(int(i.name)))
 	
+	visibility_changed.connect(_on_visibility_changed)
 	test_theme_toggle.toggled.connect(_on_TestThemeToggle_toggled)
 	beast_distance_to_player_slider.value_changed.connect(_update_adrenaline.unbind(1))
 	space_beast_spawned_slider.value_changed.connect(_update_adrenaline.unbind(1))
@@ -82,6 +83,11 @@ func _update_settings() -> void:
 		test_music_player_stream.set_sync_stream(i, audio_stream)
 		layers[i].line_edit.text = path
 
+
+
+func _on_visibility_changed() -> void:
+	if not is_visible_in_tree():
+		test_theme_toggle.check_button.button_pressed = false
 
 
 func _on_Layer_path_set(path: String, layer_idx: int) -> void:
