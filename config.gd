@@ -11,23 +11,35 @@ static var mods_folder: String = "":
 	set(value):
 		mods_folder = value
 		save()
-static var mod_order: PackedStringArray = []:
+static var mod_order: Dictionary[String, bool] = {}:
 	set(value):
 		mod_order = value
 		save()
 
+static var _is_save_queued: bool = false
 
 
-static func save() -> Error:
+
+static func save() -> void:
+	if _is_save_queued:
+		return
+	
+	_is_save_queued = true
+	await Engine.get_main_loop().process_frame
+	
 	var config: ConfigFile = ConfigFile.new()
 	
 	config.set_value("General", "path_to_nwf", path_to_nwf)
 	config.set_value("General", "mods_folder", mods_folder)
 	
 	for i in mod_order.size():
-		config.set_value("Mod Order", str("mod[", i, "]"), mod_order[i])
+		config.set_value("Mod Order", str("mod[", i, "]"), mod_order.keys()[i])
 	
-	return config.save(DEFAULT_PATH)
+	for i in mod_order.size():
+		config.set_value("Mods Enabled", str(i), mod_order.values()[i])
+	
+	_is_save_queued = false
+	config.save(DEFAULT_PATH)
 
 
 static func load() -> Error:
@@ -41,6 +53,9 @@ static func load() -> Error:
 	mods_folder = config.get_value("General", "mods_folder")
 	
 	for i in config.get_section_keys("Mod Order"):
-		mod_order.append(config.get_value("Mod Order", i))
+		mod_order[config.get_value("Mod Order", i, "nil")] = true
+	
+	for i in config.get_section_keys("Mods Enabled"):
+		mod_order[mod_order.keys()[int(i)]] = config.get_value("Mods Enabled", i, true)
 	
 	return err_code
