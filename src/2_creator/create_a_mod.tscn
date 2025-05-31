@@ -185,41 +185,49 @@ size_flags_horizontal = 3
 [node name="Layer0" parent="VBoxContainer/ToolsContainer/ActionTheme/ThemeSettingsContainer/LayerSettings" instance=ExtResource("2_y5g7m")]
 layout_mode = 2
 file_type_filter = PackedStringArray("*wav")
+file_mode = 0
 label_name = "Layer 0"
 
 [node name="Layer1" parent="VBoxContainer/ToolsContainer/ActionTheme/ThemeSettingsContainer/LayerSettings" instance=ExtResource("2_y5g7m")]
 layout_mode = 2
 file_type_filter = PackedStringArray("*wav")
+file_mode = 0
 label_name = "Layer 1"
 
 [node name="Layer2" parent="VBoxContainer/ToolsContainer/ActionTheme/ThemeSettingsContainer/LayerSettings" instance=ExtResource("2_y5g7m")]
 layout_mode = 2
 file_type_filter = PackedStringArray("*wav")
+file_mode = 0
 label_name = "Layer 2"
 
 [node name="Layer3" parent="VBoxContainer/ToolsContainer/ActionTheme/ThemeSettingsContainer/LayerSettings" instance=ExtResource("2_y5g7m")]
 layout_mode = 2
 file_type_filter = PackedStringArray("*wav")
+file_mode = 0
 label_name = "Layer 3"
 
 [node name="Layer4" parent="VBoxContainer/ToolsContainer/ActionTheme/ThemeSettingsContainer/LayerSettings" instance=ExtResource("2_y5g7m")]
 layout_mode = 2
 file_type_filter = PackedStringArray("*wav")
+file_mode = 0
 label_name = "Layer 4"
 
 [node name="Layer5" parent="VBoxContainer/ToolsContainer/ActionTheme/ThemeSettingsContainer/LayerSettings" instance=ExtResource("2_y5g7m")]
 layout_mode = 2
 file_type_filter = PackedStringArray("*wav")
+file_mode = 0
 label_name = "Layer 5"
 
 [node name="Layer6" parent="VBoxContainer/ToolsContainer/ActionTheme/ThemeSettingsContainer/LayerSettings" instance=ExtResource("2_y5g7m")]
 layout_mode = 2
 file_type_filter = PackedStringArray("*wav")
+file_mode = 0
 label_name = "Layer 6"
 
 [node name="Layer7" parent="VBoxContainer/ToolsContainer/ActionTheme/ThemeSettingsContainer/LayerSettings" instance=ExtResource("2_y5g7m")]
 layout_mode = 2
 file_type_filter = PackedStringArray("*wav")
+file_mode = 0
 label_name = "Layer 7"
 
 [node name="VSeparator" type="VSeparator" parent="VBoxContainer/ToolsContainer/ActionTheme/ThemeSettingsContainer"]
@@ -331,6 +339,7 @@ layout_mode = 2
 [node name="ReplacerPath" parent="VBoxContainer/ToolsContainer/GraphicReplacer/GraphicsDisplay" instance=ExtResource("2_y5g7m")]
 layout_mode = 2
 file_type_filter = PackedStringArray("*.tga")
+file_mode = 0
 label_name = "Replace selected with"
 
 [node name="AudioReplacer" type="HSplitContainer" parent="VBoxContainer/ToolsContainer"]
@@ -393,6 +402,7 @@ label_name = "Replacer Audio"
 layout_mode = 2
 size_flags_vertical = 10
 file_type_filter = PackedStringArray("*.wav")
+file_mode = 0
 label_name = "Replace selected with"
 
 [node name="DataChange" type="HBoxContainer" parent="VBoxContainer/ToolsContainer"]

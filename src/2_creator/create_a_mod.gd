@@ -36,7 +36,7 @@ func _ready() -> void:
 			#prompt = Prompt.nwf_path.instantiate()
 			#prompt.popup_exclusive(self)
 	
-	mod_name_line_edit.text_submitted.connect(_on_ModNameLineEdit_text_submitted)
+	mod_name_line_edit.text_changed.connect(_on_ModNameLineEdit_text_changed)
 	mod_tool_selection.item_selected.connect(_on_ModToolSelection_item_selected)
 	save_mod_button.pressed.connect(compile_mod)
 	action_theme.data_changed.connect(_on_data_changed.bind("theme"))
@@ -48,7 +48,7 @@ func _ready() -> void:
 
 
 func _get_file_path(global_path: String) -> String:
-	return str(global_path, "/", mod_name, ".sbtfmod")
+	return str(global_path, "/", mod_name.replace(" ", ""), ".sbtfmod")
 
 
 
@@ -69,19 +69,15 @@ func compile_mod() -> void:
 	if path.is_empty():
 		return
 	
-	var file_exists: FileAccess = FileAccess.open(_get_file_path(path), FileAccess.READ)
+	var file_exists: = FileAccess.open(_get_file_path(path), FileAccess.READ)
 	var zip_packer: ZIPPacker = ZIPPacker.new()
 	
 	if file_exists:
 		file_exists.close()
-		print(OS.move_to_trash(_get_file_path(path)))
+		DirAccess.remove_absolute(_get_file_path(path))
 	
 	if not zip_packer.open(_get_file_path(path)) == OK:
 		return
-	
-	zip_packer.start_file("description.txt")
-	zip_packer.write_file(description.to_utf8_buffer())
-	zip_packer.close_file()
 	
 	for i in data:
 		var section: Dictionary = data[i]
@@ -94,15 +90,18 @@ func compile_mod() -> void:
 					if not replacer:
 						continue
 					
-					zip_packer.start_file(file.trim_prefix(SBTFTool.OUTPUT_PATH))
+					zip_packer.start_file(file.trim_prefix(Config.path_to_output))
 					zip_packer.write_file(replacer.get_buffer(replacer.get_length()))
 					zip_packer.close_file()
 			"theme":
 				for action_theme in section:
 					var schema_string: String = ""
+					var themes_string: String = ""
 					
-					for layer in section[action_theme]:
+					for idx: int in section[action_theme].size():
+						var layer: String = section[action_theme][idx]
 						var replacer: FileAccess = FileAccess.open(layer, FileAccess.READ)
+						var trimmed_path: String = layer.trim_prefix(str(Config.path_to_output, "/"))
 						
 						if not replacer:
 							continue
@@ -110,34 +109,44 @@ func compile_mod() -> void:
 						# Write the string that will be inserted into schema.xml.
 						schema_string += "    <PackageFile>\n"
 						schema_string += "      <FilePath>"
-						schema_string += layer.trim_prefix(str(SBTFTool.get_global_user_path(), "/"))
+						schema_string += trimmed_path
 						schema_string += "</FilePath>\n"
 						schema_string += "      <Unknown1>115</Unknown1>\n"
 						schema_string += "      <Unknown2>24556</Unknown2>\n"
 						schema_string += "      <Unknown3>0</Unknown3>\n"
 						schema_string += "    </PackageFile>\n"
+						themes_string += str(action_theme, ".asset_", idx, "=", trimmed_path, "\n")
 						
-						zip_packer.start_file(layer.trim_prefix(SBTFTool.get_global_user_path()))
+						zip_packer.start_file(layer.trim_prefix(Config.path_to_output))
 						zip_packer.write_file(replacer.get_buffer(replacer.get_length()))
 						zip_packer.close_file()
 					
 					zip_packer.start_file("theme_schemas.txt")
 					zip_packer.write_file(schema_string.to_utf8_buffer())
 					zip_packer.close_file()
+					zip_packer.start_file("added_themes.txt")
+					zip_packer.write_file(themes_string.to_utf8_buffer())
+					zip_packer.close_file()
 			"data":
 				zip_packer.start_file("data_changes.txt")
 				
-				for data in section:
-					var line: Dictionary = section[data]
-					zip_packer.write_file(str(line.value, "/", line.line_position, "\n").to_utf8_buffer())
+				for data_file in section:
+					zip_packer.write_file(str("[", data_file, "]\n").to_utf8_buffer())
+					
+					for value_name in section[data_file]:
+						var value_dict: Dictionary = section[data_file][value_name]
+						zip_packer.write_file(str(value_dict.value, "/", value_dict.line_position, "\n").to_utf8_buffer())
 				
 				zip_packer.close_file()
-			"description":
-				zip_packer.start_file("description.txt")
-				zip_packer.write_file(str(mod_name, "\n").to_utf8_buffer())
-				zip_packer.write_file(section.text.to_utf8_buffer())
-				zip_packer.close_file()
 	
+	zip_packer.start_file("description.txt")
+	zip_packer.write_file(str(mod_name, "\n").to_utf8_buffer())
+	
+	if data.description:
+		zip_packer.write_file("<~^W^~>\n".to_utf8_buffer())
+		zip_packer.write_file(data.description.text.to_utf8_buffer())
+	
+	zip_packer.close_file()
 	zip_packer.close()
 
 
@@ -146,7 +155,7 @@ func _on_data_changed(changed_data: Dictionary, from: String) -> void:
 	data[from] = changed_data
 
 
-func _on_ModNameLineEdit_text_submitted(new_text: String) -> void:
+func _on_ModNameLineEdit_text_changed(new_text: String) -> void:
 	mod_name = new_text
 
 
