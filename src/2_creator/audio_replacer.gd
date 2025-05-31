@@ -43,7 +43,7 @@ func _update_list() -> void:
 		var metadata: Dictionary = file_list.get_item_metadata(idx)
 		
 		if not metadata.replacer.is_empty():
-			replacer_list.add_item(metadata.path_to.trim_prefix(SBTFTool.OUTPUT_PATH))
+			replacer_list.add_item(metadata.path_to.trim_prefix(Config.path_to_output))
 			replacer_list.set_item_metadata(replacer_list.item_count - 1, metadata)
 			replacer_list.set_item_custom_bg_color(replacer_list.item_count - 1, Color(Color.YELLOW, 0.1))
 			file_list.remove_item(idx)
@@ -57,7 +57,7 @@ func _update_list() -> void:
 		var metadata: Dictionary = replacer_list.get_item_metadata(idx)
 		
 		if metadata.replacer.is_empty():
-			file_list.add_item(metadata.path_to.trim_prefix(SBTFTool.OUTPUT_PATH))
+			file_list.add_item(metadata.path_to.trim_prefix(Config.path_to_output))
 			file_list.set_item_metadata(file_list.item_count - 1, metadata)
 			replacer_list.remove_item(idx)
 			continue
@@ -73,8 +73,8 @@ func _on_visibility_changed() -> void:
 	if not is_visible_in_tree() or _initialized:
 		return
 	
-	var output_dir: DirAccess = DirAccess.open(str(SBTFTool.OUTPUT_PATH, "/sound"))
-	var dirs_to_search: PackedStringArray = [str(SBTFTool.OUTPUT_PATH, "/sound")]
+	var output_dir: DirAccess = DirAccess.open(str(Config.path_to_output, "/sound"))
+	var dirs_to_search: PackedStringArray = [str(Config.path_to_output, "/sound")]
 	var current_file: String = ""
 	var valid_files: PackedStringArray = []
 	
@@ -108,7 +108,7 @@ func _on_visibility_changed() -> void:
 	file_list.clear()
 	
 	for i in valid_files:
-		file_list.add_item(i.trim_prefix(SBTFTool.OUTPUT_PATH))
+		file_list.add_item(i.trim_prefix(Config.path_to_output))
 		file_list.set_item_metadata(file_list.item_count - 1, {
 			path_to = i,
 			replacer = "",
