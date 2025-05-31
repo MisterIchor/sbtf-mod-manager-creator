@@ -7,6 +7,10 @@ static var path_to_nwf: String = "":
 	set(value):
 		path_to_nwf = value
 		save_file()
+static var path_to_output: String = "":
+	set(value):
+		path_to_output = value
+		save_file()
 static var mods_folder: String = "":
 	set(value):
 		mods_folder = value
@@ -22,6 +26,7 @@ static var _is_save_queued: bool = false
 
 static func _static_init() -> void:
 	load_file()
+	print(path_to_nwf)
 
 
 
@@ -35,6 +40,7 @@ static func save_file() -> void:
 	var config: ConfigFile = ConfigFile.new()
 	
 	config.set_value("General", "path_to_nwf", path_to_nwf)
+	config.set_value("General", "path_to_output", path_to_output)
 	config.set_value("General", "mods_folder", mods_folder)
 	
 	for i in mod_order.size():
@@ -54,8 +60,9 @@ static func load_file() -> Error:
 	if not err_code == OK:
 		return err_code
 	
-	path_to_nwf = config.get_value("General", "path_to_nwf")
-	mods_folder = config.get_value("General", "mods_folder")
+	path_to_nwf = config.get_value("General", "path_to_nwf", "")
+	path_to_output = config.get_value("General", "path_to_output", "")
+	mods_folder = config.get_value("General", "mods_folder", "")
 	mod_order.resize(config.get_section_keys("Mod Order").size())
 	
 	for i in config.get_section_keys("Mod Order"):
