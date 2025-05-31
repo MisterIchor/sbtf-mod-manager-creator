@@ -60,9 +60,10 @@ static func _load() -> Error:
 	
 	for i in config.get_section_keys("Mod Order"):
 		var path: String = config.get_value("Mod Order", i, "nil")
-		var file_exists: bool = DirAccess.dir_exists_absolute(path)
+		var file_exists: FileAccess = FileAccess.open(path, FileAccess.READ)
 		
 		if file_exists:
+			file_exists.close()
 			mod_order[int(i)].path = path
 			mod_order[int(i)].enabled = config.get_value("Mod Enabled", i, true)
 	
