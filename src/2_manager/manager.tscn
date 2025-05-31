@@ -43,7 +43,8 @@ text = "<--- Back to Menu"
 [node name="ModsFolderPathInteractable" parent="VBoxContainer/GlobalSettingsContainer" instance=ExtResource("2_w1drn")]
 layout_mode = 2
 size_flags_horizontal = 3
-label_name = "Path to mods folder"
+file_mode = 2
+label_name = "Mods Folder"
 
 [node name="StartGameButton" type="Button" parent="VBoxContainer/GlobalSettingsContainer"]
 layout_mode = 2
@@ -58,29 +59,76 @@ layout_mode = 2
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="ModsContainer" type="VBoxContainer" parent="VBoxContainer/HSplitContainer"]
+[node name="ModsContainer" type="HBoxContainer" parent="VBoxContainer/HSplitContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="VBoxContainer/HSplitContainer/ModsContainer"]
+[node name="ModListContainer" type="VBoxContainer" parent="VBoxContainer/HSplitContainer/ModsContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="VBoxContainer/HSplitContainer/ModsContainer/ModListContainer"]
 layout_mode = 2
 text = "Mod List"
 horizontal_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="VBoxContainer/HSplitContainer/ModsContainer"]
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer/HSplitContainer/ModsContainer/ModListContainer"]
 layout_mode = 2
 
-[node name="ModList" type="ItemList" parent="VBoxContainer/HSplitContainer/ModsContainer"]
+[node name="ModList" type="ItemList" parent="VBoxContainer/HSplitContainer/ModsContainer/ModListContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+allow_reselect = true
+wraparound_items = false
 
-[node name="HSeparator2" type="HSeparator" parent="VBoxContainer/HSplitContainer/ModsContainer"]
+[node name="HSeparator2" type="HSeparator" parent="VBoxContainer/HSplitContainer/ModsContainer/ModListContainer"]
 layout_mode = 2
 
-[node name="ToggleModButton" type="Button" parent="VBoxContainer/HSplitContainer/ModsContainer"]
+[node name="ToggleModButton" type="Button" parent="VBoxContainer/HSplitContainer/ModsContainer/ModListContainer"]
 layout_mode = 2
-text = "Disable Mod
-"
+disabled = true
+toggle_mode = true
+text = "Select a mod to enable/disable"
+
+[node name="LoadOrderContainer" type="VBoxContainer" parent="VBoxContainer/HSplitContainer/ModsContainer"]
+layout_mode = 2
+
+[node name="LoadOrderLabelContainer" type="VBoxContainer" parent="VBoxContainer/HSplitContainer/ModsContainer/LoadOrderContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HSplitContainer/ModsContainer/LoadOrderContainer/LoadOrderLabelContainer"]
+layout_mode = 2
+text = "Load Order"
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer/HSplitContainer/ModsContainer/LoadOrderContainer/LoadOrderLabelContainer"]
+layout_mode = 2
+
+[node name="LoadOrderSettingsContainer" type="VBoxContainer" parent="VBoxContainer/HSplitContainer/ModsContainer/LoadOrderContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+
+[node name="UpOneButton" type="Button" parent="VBoxContainer/HSplitContainer/ModsContainer/LoadOrderContainer/LoadOrderSettingsContainer"]
+layout_mode = 2
+disabled = true
+text = "^"
+
+[node name="SendToTopButton" type="Button" parent="VBoxContainer/HSplitContainer/ModsContainer/LoadOrderContainer/LoadOrderSettingsContainer"]
+layout_mode = 2
+disabled = true
+text = "^
+^"
+
+[node name="SendToBottomButton" type="Button" parent="VBoxContainer/HSplitContainer/ModsContainer/LoadOrderContainer/LoadOrderSettingsContainer"]
+layout_mode = 2
+disabled = true
+text = "v
+v"
+
+[node name="DownOneButton" type="Button" parent="VBoxContainer/HSplitContainer/ModsContainer/LoadOrderContainer/LoadOrderSettingsContainer"]
+layout_mode = 2
+disabled = true
+text = "v"
 
 [node name="ModDetailContainer" type="VBoxContainer" parent="VBoxContainer/HSplitContainer"]
 layout_mode = 2
