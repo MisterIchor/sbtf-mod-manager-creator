@@ -6,26 +6,26 @@ const DEFAULT_PATH: String = "user://sbtf_mod_manager.cfg"
 static var path_to_nwf: String = "":
 	set(value):
 		path_to_nwf = value
-		_save()
+		save_file()
 static var mods_folder: String = "":
 	set(value):
 		mods_folder = value
-		_save()
+		save_file()
 static var mod_order: Array[Dictionary] = []:
 	set(value):
 		mod_order = value
-		_save()
+		save_file()
 
 static var _is_save_queued: bool = false
 
 
 
 static func _static_init() -> void:
-	_load()
+	load_file()
 
 
 
-static func _save() -> void:
+static func save_file() -> void:
 	if _is_save_queued:
 		return
 	
@@ -47,7 +47,7 @@ static func _save() -> void:
 	config.save(DEFAULT_PATH)
 
 
-static func _load() -> Error:
+static func load_file() -> Error:
 	var config: ConfigFile = ConfigFile.new()
 	var err_code: Error = config.load(DEFAULT_PATH)
 	
@@ -65,6 +65,6 @@ static func _load() -> Error:
 		if file_exists:
 			file_exists.close()
 			mod_order[int(i)].path = path
-			mod_order[int(i)].enabled = config.get_value("Mod Enabled", i, true)
+			mod_order[int(i)].enabled = config.get_value("Mods Enabled", i, true)
 	
 	return err_code
