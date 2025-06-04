@@ -1,0 +1,73 @@
+[gd_scene load_steps=3 format=3 uid="uid://031jlqrvv2l7"]
+
+[ext_resource type="Script" uid="uid://dxt5st7ds5xrs" path="res://src/1_start/start.gd" id="1_5l2h4"]
+[ext_resource type="Texture2D" uid="uid://cjoyxhciy0620" path="res://assets/splash.png" id="1_lgfmq"]
+
+[node name="Start" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_5l2h4")
+
+[node name="PanelContainer" type="ColorRect" parent="."]
+self_modulate = Color(0, 0, 0, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer"]
+layout_mode = 2
+offset_right = 900.0
+offset_bottom = 506.0
+texture = ExtResource("1_lgfmq")
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="PanelContainer/TextureRect"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.286
+anchor_right = 1.0
+anchor_bottom = 0.715
+offset_left = 490.0
+offset_top = 255.172
+offset_right = -490.0
+offset_bottom = 0.179993
+grow_horizontal = 2
+grow_vertical = 2
+text = "Mod Manager/Creator"
+horizontal_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+offset_left = 13.0
+offset_top = 8.0
+offset_right = 885.0
+offset_bottom = 498.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 10
+
+[node name="ManageModsButton" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Manage Mods
+"
+
+[node name="SettingsButton" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Settings
+"
+
+[node name="CreateModButton" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Create a mod
+"
