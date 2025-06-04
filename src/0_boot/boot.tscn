@@ -1,7 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://c6or4pfdp5who"]
+[gd_scene load_steps=3 format=3 uid="uid://c6or4pfdp5who"]
 
 [ext_resource type="Script" uid="uid://bextkic8hobrp" path="res://src/0_boot/boot.gd" id="1_8im2v"]
+[ext_resource type="Texture2D" uid="uid://cbpigaipeyp2q" path="res://assets/boot_background.png" id="1_ibhno"]
 
-[node name="Boot" type="Window"]
-position = Vector2i(0, 36)
+[node name="Boot" type="TextureRect"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_ibhno")
 script = ExtResource("1_8im2v")
