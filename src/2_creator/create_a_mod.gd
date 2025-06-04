@@ -1,4 +1,4 @@
-extends Window
+extends Control
 
 enum ModeToolSelection {NONE_SELECTED, ACTION_THEME, GRAPHICS_REPLACER, AUDIO_REPLACER, DATA_CHANGER, MOD_DESCRIPTION}
 
@@ -16,34 +16,25 @@ var data: Dictionary = {}
 @onready var data_change: HBoxContainer = $VBoxContainer/ToolsContainer/DataChange
 @onready var audio_replacer: HSplitContainer = $VBoxContainer/ToolsContainer/AudioReplacer
 @onready var save_mod_button: Button = $VBoxContainer/SaveLoadContainer/SaveModButton
-@onready var load_mod_button: Button = $VBoxContainer/SaveLoadContainer/LoadModButton
+@onready var load_mod_interactable: PathToInteractable = $VBoxContainer/SaveLoadContainer/LoadModInteractable
 @onready var mod_description: TextEdit = $VBoxContainer/ToolsContainer/ModDescription
+@onready var back_to_menu_button: Button = $VBoxContainer/HBoxContainer/BackToMenuButton
+
+var _temp_output_path: String = ""
 
 
 
 func _ready() -> void:
-	#if not SBTFTool.verify_nwf() == 0:
-		#var prompt: Window = Prompt.nwf_path.instantiate()
-		#prompt.popup_exclusive_centered(self)
-		#
-		#while true:
-			#await prompt.close_requested
-			#
-			#if not Config.path_to_nwf.is_empty():
-				#if not SBTFTool.verify_nwf() == 0:
-					#break
-			#
-			#prompt = Prompt.nwf_path.instantiate()
-			#prompt.popup_exclusive(self)
-	
 	mod_name_line_edit.text_changed.connect(_on_ModNameLineEdit_text_changed)
 	mod_tool_selection.item_selected.connect(_on_ModToolSelection_item_selected)
-	save_mod_button.pressed.connect(compile_mod)
+	save_mod_button.pressed.connect(save_mod)
+	#load_mod_interactable.path_set.connect(load_mod)
 	action_theme.data_changed.connect(_on_data_changed.bind("theme"))
 	graphic_replacer.data_changed.connect(_on_data_changed.bind("graphic"))
 	data_change.data_changed.connect(_on_data_changed.bind("data"))
 	audio_replacer.data_changed.connect(_on_data_changed.bind("audio"))
 	mod_description.data_changed.connect(_on_data_changed.bind("description"))
+	back_to_menu_button.pressed.connect(_on_BackToMenuButton_pressed)
 
 
 
@@ -52,7 +43,7 @@ func _get_file_path(global_path: String) -> String:
 
 
 
-func compile_mod() -> void:
+func save_mod() -> void:
 	if mod_name.is_empty():
 		return
 	
@@ -149,10 +140,76 @@ func compile_mod() -> void:
 	zip_packer.close_file()
 	zip_packer.close()
 
+# Canned, for now.
+#func load_mod(path: String) -> void:
+	#_temp_output_path = Config.path_to_output.path_join(path.get_file().get_basename())
+	#
+	#if not SBTFMod.decompile(path, _temp_output_path):
+		#_temp_output_path = ""
+		#return
+	#
+	#var output_dir: DirAccess = DirAccess.open(_temp_output_path)
+	#var dirs_to_search: PackedStringArray = [_temp_output_path]
+	#var current_file: String = ""
+	#var valid_files: PackedStringArray = []
+	#
+	#if not output_dir.list_dir_begin() == OK:
+		#print(error_string(output_dir.get_open_error()))
+		#return
+	#
+	#while not dirs_to_search.is_empty():
+		#current_file = output_dir.get_next()
+		#
+		#if output_dir.current_is_dir():
+			#dirs_to_search.append(str(dirs_to_search[0], "/", current_file))
+			#continue
+		#
+		#if current_file.get_extension() == "txt":
+			#var file: FileAccess = FileAccess.open(output_dir.get_current_dir().path_join(current_file), FileAccess.READ)
+			#
+			#if "added_themes" in current_file:
+				#if not file:
+					#print("file ", current_file, " failed to open.")
+					#continue
+				#
+				#var themes: Dictionary[String, Array] = {}
+				#
+				#while not file.eof_reached():
+					#var line: String = file.get_line()
+					#var theme_name: String = line.get_slice(".", 0)
+					#var theme_path: String = line.get_slice("=", 1)
+					#
+					#themes.get_or_add(theme_name, [])
+					#themes[theme_name].append(_temp_output_path.path_join(theme_path))
+				#
+				#action_theme._update(themes)
+			#
+			#if "description" in current_file:
+				#var file_text: PackedStringArray = file.get_as_text().split("<~^W^~>\n")
+				#mod_name_line_edit.text = file_text[0]
+				#mod_description._update({text = file_text[1]})
+			#continue
+		#
+		#
+		#if current_file.is_empty():
+			#dirs_to_search.remove_at(0)
+			#
+			#if dirs_to_search.is_empty():
+				#break
+			#
+			#output_dir = output_dir.open(dirs_to_search[0])
+			#
+			#if not output_dir.list_dir_begin() == OK:
+				#break
+
 
 
 func _on_data_changed(changed_data: Dictionary, from: String) -> void:
 	data[from] = changed_data
+
+
+func _on_BackToMenuButton_pressed() -> void:
+	get_tree().change_scene_to_file("res://src/1_start/start.tscn")
 
 
 func _on_ModNameLineEdit_text_changed(new_text: String) -> void:
