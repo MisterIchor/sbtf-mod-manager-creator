@@ -1,9 +1,8 @@
 [gd_scene format=3 uid="uid://87cso3fdmgcf"]
 
-[node name="InvalidFile" type="Control"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="InvalidFile" type="AcceptDialog"]
+title = "Invalid .nwf file"
+initial_position = 2
+size = Vector2i(592, 90)
+visible = true
+dialog_text = "File provided is not a valid .nwf file. File must be a .nwf file from update 60."
