@@ -13,8 +13,10 @@ func _exit_tree() -> void:
 		current_file = output_dir.get_next()
 		
 		if output_dir.current_is_dir():
-			dirs_to_search.append(str(dirs_to_search[0], "/", current_file))
-			continue
+			# For some reason, an empty string is considered a directory.
+			if not current_file.is_empty():
+				dirs_to_search.append(str(dirs_to_search[0], "/", current_file))
+				continue
 		
 		output_dir.remove(current_file)
 		
