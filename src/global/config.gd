@@ -26,7 +26,23 @@ static var _is_save_queued: bool = false
 
 static func _static_init() -> void:
 	load_file()
-	print(path_to_nwf)
+	
+	if path_to_output.is_empty():
+		var dir: DirAccess = DirAccess.open(OS.get_executable_path().get_base_dir())
+		
+		if not dir.dir_exists(".temp"):
+			dir.make_dir(".temp")
+		
+		path_to_output = dir.get_current_dir().path_join(".temp")
+	
+	if mods_folder.is_empty():
+		var dir: DirAccess = DirAccess.open(OS.get_executable_path().get_base_dir())
+		
+		if not dir.dir_exists("mods"):
+			dir.make_dir("mods")
+		
+		mods_folder = OS.get_executable_path().get_base_dir().path_join("mods")
+		mod_order.clear()
 
 
 
@@ -61,9 +77,8 @@ static func load_file() -> Error:
 		return err_code
 	
 	path_to_nwf = config.get_value("General", "path_to_nwf", "")
-	path_to_output = config.get_value("General", "path_to_output", "")
+	path_to_output = config.get_value("General", "path_to_output", OS.get_user_data_dir().path_join("output"))
 	mods_folder = config.get_value("General", "mods_folder", "")
-	mod_order.resize(config.get_section_keys("Mod Order").size())
 	
 	for i in config.get_section_keys("Mod Order"):
 		var path: String = config.get_value("Mod Order", i, "nil")
@@ -71,7 +86,9 @@ static func load_file() -> Error:
 		
 		if file_exists:
 			file_exists.close()
-			mod_order[int(i)].path = path
-			mod_order[int(i)].enabled = config.get_value("Mods Enabled", i, true)
+			mod_order.append({
+				path = path,
+				enabled = config.get_value("Mods Enabled", i, true)
+			})
 	
 	return err_code
