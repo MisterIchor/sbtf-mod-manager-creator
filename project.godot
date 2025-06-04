@@ -11,14 +11,22 @@ config_version=5
 [application]
 
 config/name="SBTF Mod Manager"
-run/main_scene="uid://da786rrn2jbg0"
+run/main_scene="uid://c6or4pfdp5who"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 run/low_processor_mode=true
 config/icon="res://icon.svg"
 
+[autoload]
+
+CleanUp="*res://src/global/clean_up.gd"
+
 [display]
 
+window/size/viewport_width=900
+window/size/viewport_height=506
+window/size/resizable=false
 window/subwindows/embed_subwindows=false
+window/stretch/aspect="ignore"
 
 [editor]
 
