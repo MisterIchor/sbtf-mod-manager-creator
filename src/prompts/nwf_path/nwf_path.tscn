@@ -2,20 +2,18 @@
 
 [ext_resource type="Script" uid="uid://b6wlg86hcdkja" path="res://src/prompts/nwf_path/nwf_path.gd" id="1_esyec"]
 
-[node name="NwfPath" type="Window"]
+[node name="NwfPath" type="AcceptDialog"]
 title = "NWF file not found."
 initial_position = 2
-size = Vector2i(623, 116)
-transient = true
-exclusive = true
-popup_window = true
+size = Vector2i(623, 115)
+visible = true
 script = ExtResource("1_esyec")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-offset_left = 4.0
-offset_top = 4.0
-offset_right = 619.0
-offset_bottom = 112.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 615.0
+offset_bottom = 66.0
 
 [node name="NoticeLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
@@ -38,17 +36,11 @@ size_flags_horizontal = 3
 layout_mode = 2
 text = "..."
 
-[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
-layout_mode = 2
-
-[node name="OKButton" type="Button" parent="VBoxContainer"]
-layout_mode = 2
-text = "OK"
-
 [node name="FileDialog" type="FileDialog" parent="."]
 title = "Open a File"
 initial_position = 2
 size = Vector2i(900, 360)
+force_native = true
 ok_button_text = "Open"
 file_mode = 0
 access = 2
