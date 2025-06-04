@@ -11,8 +11,11 @@ extends Control
 @onready var send_to_top_button: Button = $VBoxContainer/HSplitContainer/ModsContainer/LoadOrderContainer/LoadOrderSettingsContainer/SendToTopButton
 @onready var down_one_button: Button = $VBoxContainer/HSplitContainer/ModsContainer/LoadOrderContainer/LoadOrderSettingsContainer/DownOneButton
 @onready var send_to_bottom_button: Button = $VBoxContainer/HSplitContainer/ModsContainer/LoadOrderContainer/LoadOrderSettingsContainer/SendToBottomButton
+@onready var process_blanket: ColorRect = $ProcessBlanket
 
 var _last_selected_mod: int = -1
+var _sbtf_process_id: int = -1
+var _is_monitoring: bool = false
 
 
 
@@ -34,6 +37,21 @@ func _process(_delta: float) -> void:
 	# That's right, we're gonna cheat.
 	if not _last_selected_mod == -1:
 		mod_list.select(_last_selected_mod)
+	
+	if not _is_monitoring:
+		return
+	
+	prints("Monitoring...", _sbtf_process_id, OS.get_process_exit_code(_sbtf_process_id))
+	
+	if _sbtf_process_id == -1:
+		_sbtf_process_id = _get_process_id()
+	
+	if not _sbtf_process_id == -1:
+		if _get_process_id() == -1:
+			prints("SBTF exited, ending monitor...", _sbtf_process_id, OS.is_process_running(_sbtf_process_id))
+			process_blanket.hide()
+			_sbtf_process_id = -1
+			_is_monitoring = false
 
 
 
@@ -82,8 +100,26 @@ func _push_selected_mod(how_many: int) -> void:
 	_update_mod_list()
 
 
+func _get_process_id() -> int:
+	var output: Array = []
+	
+	match OS.get_name():
+		"Windows":
+			var windows_output: Array = []
+			OS.execute("CMD.exe", ["/C", 'tasklist /v /fo csv | findstr /i "sbtf_pub.exe"'], windows_output)
+			output.append(windows_output[0].get_slice(",", 1))
+		"Linux":
+			OS.execute("pgrep", ["sbtf_pub.exe"], output)
+	
+	return int(output.front()) if not output.front().is_empty() else -1
+
+
 
 func start_game() -> void:
+	process_blanket.show()
+	await get_tree().process_frame
+	await get_tree().process_frame
+	
 	if not FileAccess.open(Config.path_to_nwf.get_base_dir().path_join("sbtf_pub_backup.nwf"), FileAccess.READ):
 		var nwf_file: FileAccess = FileAccess.open(Config.path_to_nwf, FileAccess.READ)
 		var backup_file: FileAccess = FileAccess.open(Config.path_to_nwf.get_base_dir().path_join("sbtf_pub_backup.nwf"), FileAccess.WRITE)
@@ -96,6 +132,7 @@ func start_game() -> void:
 	prints("SBTFTool Schema: ", exit_code)
 	
 	if not exit_code == 0:
+		process_blanket.hide()
 		return
 	
 	for i in Config.mod_order:
@@ -104,7 +141,8 @@ func start_game() -> void:
 	
 	exit_code = SBTFTool.repack_nwf()
 	prints("SBTFTool Repack: ", exit_code)
-	print(OS.execute("steam", ["steam://rungameid/357330"]))
+	OS.execute("steam", ["steam://rungameid/357330"])
+	_is_monitoring = true
 
 
 
