@@ -24,6 +24,12 @@ func set_text(new_text: String) -> void:
 
 
 
+func _handle(file_dialog: FileDialog) -> void:
+	file_dialog.hide()
+	file_dialog.queue_free()
+	_blanket.queue_free()
+
+
 func _on_Button_pressed() -> void:
 	var file_dialog: FileDialog = FileDialog.new()
 	
@@ -36,15 +42,16 @@ func _on_Button_pressed() -> void:
 	file_dialog.file_mode = file_mode
 	file_dialog.access = FileDialog.ACCESS_FILESYSTEM
 	file_dialog.size = Vector2(900, 360)
+	file_dialog.force_native = true
+	file_dialog.current_dir = line_edit.text.get_base_dir()
+	file_dialog.current_file = line_edit.text
 	file_dialog.file_selected.connect(_on_FileDialog_file_selected.bind(file_dialog))
 	file_dialog.dir_selected.connect(_on_FileDialog_file_selected.bind(file_dialog))
-	file_dialog.canceled.connect(_on_FileDialog_file_selected.bind(file_dialog).bind(""))
+	file_dialog.canceled.connect(_handle.bind(file_dialog))
 	file_dialog.popup_exclusive_centered(owner)
 
 
 func _on_FileDialog_file_selected(path : String, file_dialog: FileDialog) -> void:
 	set_text(path)
 	path_set.emit(path)
-	file_dialog.hide()
-	file_dialog.queue_free()
-	_blanket.queue_free()
+	_handle(file_dialog)
