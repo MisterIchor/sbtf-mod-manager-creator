@@ -50,23 +50,27 @@ cache/0/14/0/scale = 1.0
 font = SubResource("FontFile_yhad8")
 font_size = 14
 
-[node name="CreateAMod" type="Window"]
-title = "Create a Mod"
-initial_position = 1
-size = Vector2i(995, 505)
-unresizable = true
+[node name="CreateAMod" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_yhad8")
 
 [node name="TextureRect" type="TextureRect" parent="."]
-offset_left = -0.446411
-offset_right = 1416.45
-offset_bottom = 505.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_ryqji")
-expand_mode = 3
+stretch_mode = 5
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.0080402
 anchor_top = 0.0118812
@@ -79,7 +83,7 @@ metadata/_edit_use_anchors_ = true
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
 
-[node name="Button" type="Button" parent="VBoxContainer/HBoxContainer"]
+[node name="BackToMenuButton" type="Button" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 2
 text = "<--- Back to menu"
@@ -128,7 +132,6 @@ layout_mode = 2
 size_flags_vertical = 3
 
 [node name="NoneSelectedLabel" type="Label" parent="VBoxContainer/ToolsContainer"]
-visible = false
 layout_mode = 2
 size_flags_vertical = 1
 text = "Select a mod type in the top-right corner to create a mod."
@@ -455,6 +458,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="ModDescription" type="TextEdit" parent="VBoxContainer/ToolsContainer"]
+visible = false
 layout_mode = 2
 placeholder_text = "Describe your mod here..."
 wrap_mode = 1
@@ -468,10 +472,12 @@ layout_mode = 2
 layout_mode = 2
 size_flags_vertical = 8
 
-[node name="LoadModButton" type="Button" parent="VBoxContainer/SaveLoadContainer"]
+[node name="LoadModInteractable" parent="VBoxContainer/SaveLoadContainer" instance=ExtResource("2_y5g7m")]
+visible = false
 layout_mode = 2
-size_flags_horizontal = 6
-text = "Load Mod"
+size_flags_horizontal = 3
+file_mode = 0
+label_name = "Load Mod"
 
 [node name="SaveModButton" type="Button" parent="VBoxContainer/SaveLoadContainer"]
 layout_mode = 2
