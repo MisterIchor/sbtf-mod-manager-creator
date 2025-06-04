@@ -1,7 +1,7 @@
 class_name SBTFTool
 extends Object
 
-const EXEC_PATH: String = "res://src/sbtftool/sbtftool"
+const EXEC_PATH: String = "res://sbtftool/sbtftool"
 static var _output: Array = []:
 	set(value):
 		_output = value
@@ -33,7 +33,7 @@ static func _get_relative_path_to_schema() -> String:
 
 
 static func get_global_tool_path() -> String:
-	return str('"', OS.get_executable_path().get_base_dir().path_join(EXEC_PATH.trim_prefix("res://")), '"')
+	return OS.get_executable_path().get_base_dir().path_join(EXEC_PATH.trim_prefix("res://"))
 
 
 static func verify_nwf() -> int:
@@ -56,6 +56,7 @@ static func repack_nwf() -> int:
 
 static func generate_schema() -> int:
 	if FileAccess.open(_get_config_path_to_nwf_backup(), FileAccess.READ):
+		print("Generating schema on backup nwf file.")
 		return OS.execute(get_global_tool_path(), ["schema", _get_config_path_to_nwf_backup(), _get_relative_path_to_schema()], _output, true)
 	
 	return OS.execute(get_global_tool_path(), ["schema", _get_config_path_to_nwf(), _get_relative_path_to_schema()], _output, true)
