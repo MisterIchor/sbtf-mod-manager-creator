@@ -42,7 +42,7 @@ static func _static_init() -> void:
 		if not dir.dir_exists(".temp"):
 			dir.make_dir(".temp")
 		
-		path_to_output = dir.get_current_dir().path_join(".temp")
+		path_to_output = OS.get_executable_path().get_base_dir().path_join(".temp")
 	
 	if mods_folder.is_empty():
 		var dir: DirAccess = DirAccess.open(OS.get_executable_path().get_base_dir())
@@ -86,8 +86,8 @@ static func load_file() -> Error:
 		return err_code
 	
 	path_to_nwf = config.get_value("General", "path_to_nwf", "")
-	path_to_output = config.get_value("General", "path_to_output", OS.get_user_data_dir().path_join("output"))
-	mods_folder = config.get_value("General", "mods_folder", "")
+	path_to_output = config.get_value("General", "path_to_output", OS.get_executable_path().get_base_dir().path_join(".temp"))
+	mods_folder = config.get_value("General", "mods_folder", OS.get_executable_path().get_base_dir().path_join("mods"))
 	
 	for i in config.get_section_keys("Mod Order"):
 		var path: String = config.get_value("Mod Order", i, "nil")
