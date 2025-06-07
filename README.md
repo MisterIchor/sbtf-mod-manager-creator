@@ -16,4 +16,8 @@ Upon startup, SBTF Mod Manager/Creator will prompt you to provide a path to the 
 
 3. When it is done, it will show the path where it has downloaded Update 60 in the console. Navigate to that path and copy the files into the directory where Space Beast Terror Fight is install. Overwrite all the files in the directory.
 
-Both a linux and windows executable is provided. Do note that the Windows version is untested and may be buggy.
+## Other Notes
+
+SBTF Mod Manager/Creator creates a backup of the sbtf_pub.nwf file to make changing mods possible. This backup is in the same directory as Space Beast Terror Fright. With this in mind, ensure that you have enough space on your hard drive to hold your mods, the backup, and the modified sbtf_pub.nwf file (which will contain any activated mod file uncompressed).
+
+.sbtfmod is a unique file format, in that it's just a zip file with a renamed extension. You can use any .zip program to open a .sbtfmod file.
