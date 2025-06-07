@@ -1,6 +1,12 @@
 extends Node
 
+
+
 func _exit_tree() -> void:
+	remove_output()
+
+
+func remove_output() -> void:
 	var output_dir: DirAccess = DirAccess.open(Config.path_to_output)
 	var dirs_to_search: PackedStringArray = [Config.path_to_output]
 	var dirs_to_remove: PackedStringArray = []
