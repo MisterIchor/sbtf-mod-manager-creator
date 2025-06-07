@@ -34,6 +34,10 @@ func _ready() -> void:
 	_update_mod_list()
 
 
+func _exit_tree() -> void:
+	CleanUp.remove_output()
+
+
 func _process(_delta: float) -> void:
 	# That's right, we're gonna cheat.
 	if not _last_selected_mod == -1:
