@@ -27,30 +27,17 @@ static var _is_save_queued: bool = false
 static func _static_init() -> void:
 	load_file()
 	
-	if not DirAccess.dir_exists_absolute(path_to_output):
-		path_to_output = ""
+	if path_to_output.is_empty():
+		path_to_output = OS.get_executable_path().get_base_dir().path_join(".temp")
 	
 	if not FileAccess.open(path_to_nwf, FileAccess.READ):
 		path_to_nwf = ""
 	
-	if not DirAccess.dir_exists_absolute(mods_folder):
-		mods_folder = ""
-	
-	if path_to_output.is_empty():
-		var dir: DirAccess = DirAccess.open(OS.get_executable_path().get_base_dir())
-		
-		if not dir.dir_exists(".temp"):
-			dir.make_dir(".temp")
-		
-		path_to_output = OS.get_executable_path().get_base_dir().path_join(".temp")
-	
 	if mods_folder.is_empty():
-		var dir: DirAccess = DirAccess.open(OS.get_executable_path().get_base_dir())
-		
-		if not dir.dir_exists("mods"):
-			dir.make_dir("mods")
-		
 		mods_folder = OS.get_executable_path().get_base_dir().path_join("mods")
+	
+	if not DirAccess.dir_exists_absolute(mods_folder):
+		DirAccess.make_dir_absolute(mods_folder)
 		mod_order.clear()
 
 
