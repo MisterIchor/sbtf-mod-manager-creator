@@ -13,7 +13,8 @@ func _exit_tree() -> void:
 		current_file = output_dir.get_next()
 		
 		if output_dir.current_is_dir():
-			# For some reason, an empty string is considered a directory.
+			# For some reason, an empty string is considered a directory. If we don't catch this, 
+			# it creates a massive memory leak capable of devouring all of your RAM.
 			if not current_file.is_empty():
 				dirs_to_search.append(str(dirs_to_search[0], "/", current_file))
 				continue
