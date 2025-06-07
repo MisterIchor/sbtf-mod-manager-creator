@@ -12,6 +12,10 @@ func remove_output() -> void:
 	var dirs_to_remove: PackedStringArray = []
 	var current_file: String = ""
 	
+	if not output_dir:
+		print("Config: could not open output folder", Config.path_to_output)
+		return
+	
 	if not output_dir.list_dir_begin() == OK:
 		print(error_string(output_dir.get_open_error()))
 		return
