@@ -33,7 +33,9 @@ func _ready() -> void:
 	audio_replacer.data_changed.connect(_on_data_changed.bind("audio"))
 	mod_description.data_changed.connect(_on_data_changed.bind("description"))
 	back_to_menu_button.pressed.connect(_on_BackToMenuButton_pressed)
-	SBTFTool.unpack_nwf()
+	
+	if not DirAccess.dir_exists_absolute(Config.path_to_output):
+		SBTFTool.unpack_nwf()
 
 
 
