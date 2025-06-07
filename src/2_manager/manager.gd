@@ -30,6 +30,7 @@ func _ready() -> void:
 	down_one_button.pressed.connect(_push_selected_mod.bind(1))
 	send_to_bottom_button.pressed.connect(_push_selected_mod.bind(999))
 	mods_folder_path_interactable.line_edit.text = Config.mods_folder
+	_initialize_mod_order(Config.mods_folder)
 	_update_mod_list()
 
 
@@ -53,6 +54,48 @@ func _process(_delta: float) -> void:
 			_sbtf_process_id = -1
 			_is_monitoring = false
 
+
+func _initialize_mod_order(path: String) -> void:
+	var dir: DirAccess = DirAccess.open(path)
+	
+	if not dir.list_dir_begin() == OK:
+		print("Manager: path ", path, " failed to open.")
+		return
+	
+	var mods: PackedStringArray = []
+	var current_file: String = dir.get_next()
+	
+	while not current_file.is_empty():
+		if current_file.get_extension() == "sbtfmod":
+			mods.append(str(path, "/", current_file))
+		
+		current_file = dir.get_next()
+	
+	var mod_array: Array[Dictionary] = []
+	
+	for i in mods.size():
+		mod_array.append({
+			path = mods[i],
+			enabled = true
+		})
+	
+	for i in mod_array.size():
+		var mod_dict: Dictionary = _get_mod_dict(mod_array[i].path)
+		
+		if not mod_dict.is_empty():
+			mod_array[i].enabled = mod_dict.enabled
+	
+	Config.mod_order = mod_array
+	Config.mods_folder = path
+	_update_mod_list()
+
+
+func _get_mod_dict(path: String) -> Dictionary:
+	for i in Config.mod_order.size():
+		if Config.mod_order[i].path == path:
+			return Config.mod_order[i]
+	
+	return {}
 
 
 func _update_mod_list() -> void:
@@ -169,32 +212,8 @@ func _on_BackToMenuButton_pressed() -> void:
 
 
 func _on_ModsFolderPathInteractable_path_set(path: String) -> void:
-	var dir: DirAccess = DirAccess.open(path)
-	
-	if not dir.list_dir_begin() == OK:
-		mods_folder_path_interactable.line_edit.text = ""
-		return
-	
-	var mods: PackedStringArray = []
-	var current_file: String = dir.get_next()
-	
-	while not current_file.is_empty():
-		if current_file.get_extension() == "sbtfmod":
-			mods.append(str(path, "/", current_file))
-		
-		current_file = dir.get_next()
-	
-	var mod_array: Array[Dictionary] = []
-	
-	for i in mods.size():
-		mod_array.append({
-			path = mods[i],
-			enabled = true
-		})
-	
-	Config.mod_order = mod_array
-	Config.mods_folder = path
-	_update_mod_list()
+	_initialize_mod_order(path)
+
 
 
 func _on_ModList_item_selected(idx: int) -> void:
