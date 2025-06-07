@@ -3,6 +3,7 @@ extends Node
 func _exit_tree() -> void:
 	var output_dir: DirAccess = DirAccess.open(Config.path_to_output)
 	var dirs_to_search: PackedStringArray = [Config.path_to_output]
+	var dirs_to_remove: PackedStringArray = []
 	var current_file: String = ""
 	
 	if not output_dir.list_dir_begin() == OK:
@@ -22,6 +23,7 @@ func _exit_tree() -> void:
 		output_dir.remove(current_file)
 		
 		if current_file.is_empty():
+			dirs_to_remove.append(output_dir.get_current_dir())
 			dirs_to_search.remove_at(0)
 			
 			if dirs_to_search.is_empty():
@@ -30,4 +32,10 @@ func _exit_tree() -> void:
 			output_dir = output_dir.open(dirs_to_search[0])
 			
 			if not output_dir.list_dir_begin() == OK:
+				print("CleanUp: failed to open dir, ending clean up.")
 				break
+	
+	dirs_to_remove.reverse()
+	
+	for i in dirs_to_remove:
+		output_dir.remove_absolute(i)
