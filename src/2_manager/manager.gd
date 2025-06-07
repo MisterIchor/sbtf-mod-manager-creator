@@ -41,14 +41,14 @@ func _process(_delta: float) -> void:
 	if not _is_monitoring:
 		return
 	
-	prints("Monitoring...", _sbtf_process_id, OS.get_process_exit_code(_sbtf_process_id))
+	prints("Monitoring...", _sbtf_process_id)
 	
 	if _sbtf_process_id == -1:
 		_sbtf_process_id = _get_process_id()
 	
 	if not _sbtf_process_id == -1:
 		if _get_process_id() == -1:
-			prints("SBTF exited, ending monitor...", _sbtf_process_id, OS.is_process_running(_sbtf_process_id))
+			prints("SBTF exited, ending monitor...")
 			process_blanket.hide()
 			_sbtf_process_id = -1
 			_is_monitoring = false
@@ -114,6 +114,23 @@ func _get_process_id() -> int:
 	return int(output.front()) if not output.front().is_empty() else -1
 
 
+func _launch_sbtf() -> void:
+	var exit_code: int = - 1
+	
+	match OS.get_name():
+		"Windows":
+			var cmd_output: Array = []
+			var steam_exe_path: String = ""
+			
+			OS.execute("cmd.exe", ["/c", "reg", "query", "HKEY_CURRENT_USER\\SOFTWARE\\Valve\\Steam", "/v", "SteamExe"], cmd_output)
+			steam_exe_path = cmd_output[0].get_slice("    ", 3).strip_escapes()
+			exit_code = OS.execute(steam_exe_path, ["steam://rungameid/357330"])
+		"Linux":
+			exit_code = OS.execute("steam", ["steam://rungameid/357330"])
+	
+	print("SBTF Launch: ", exit_code)
+
+
 
 func start_game() -> void:
 	process_blanket.show()
@@ -126,6 +143,7 @@ func start_game() -> void:
 		
 		backup_file.store_buffer(nwf_file.get_buffer(nwf_file.get_length()))
 	
+	CleanUp.remove_output()
 	var exit_code: int = SBTFTool.unpack_nwf()
 	prints("SBTFTool Unpack: ", exit_code)
 	exit_code = SBTFTool.generate_schema()
@@ -141,7 +159,7 @@ func start_game() -> void:
 	
 	exit_code = SBTFTool.repack_nwf()
 	prints("SBTFTool Repack: ", exit_code)
-	OS.execute("steam", ["steam://rungameid/357330"])
+	_launch_sbtf()
 	_is_monitoring = true
 
 
