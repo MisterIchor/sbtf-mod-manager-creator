@@ -20,8 +20,6 @@ var data: Dictionary = {}
 @onready var mod_description: TextEdit = $VBoxContainer/ToolsContainer/ModDescription
 @onready var back_to_menu_button: Button = $VBoxContainer/HBoxContainer/BackToMenuButton
 
-var _temp_output_path: String = ""
-
 
 
 func _ready() -> void:
@@ -35,6 +33,7 @@ func _ready() -> void:
 	audio_replacer.data_changed.connect(_on_data_changed.bind("audio"))
 	mod_description.data_changed.connect(_on_data_changed.bind("description"))
 	back_to_menu_button.pressed.connect(_on_BackToMenuButton_pressed)
+	SBTFTool.unpack_nwf()
 
 
 
