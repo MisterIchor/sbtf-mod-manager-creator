@@ -36,7 +36,7 @@ static func decompile(path: String, output_path: String) -> Error:
 			var theme_schema_text: String = mod.read_file(file_path).get_string_from_utf8()
 			var schema_file_text: String = schema_file.get_as_text()
 		
-			schema_file.store_string(schema_file_text.insert(168, theme_schema_text))
+			schema_file.store_string(schema_file_text.insert(169, theme_schema_text))
 			schema_file.close()
 			continue
 		
