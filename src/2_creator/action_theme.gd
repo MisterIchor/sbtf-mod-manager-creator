@@ -69,6 +69,8 @@ func _update_adrenaline() -> void:
 
 
 func _update_settings() -> void:
+	var is_theme_playing: bool = test_music_player.playing
+	
 	for i in _data[_selected_theme].size():
 		var path: String = _data[_selected_theme][i]
 		
@@ -82,6 +84,8 @@ func _update_settings() -> void:
 		audio_stream.loop_end = audio_stream.mix_rate * audio_stream.get_length()
 		test_music_player_stream.set_sync_stream(i, audio_stream)
 		layers[i].line_edit.text = path
+	
+	test_music_player.playing = is_theme_playing
 
 
 
@@ -94,9 +98,6 @@ func _on_Layer_path_set(path: String, layer_idx: int) -> void:
 	_data[_selected_theme][layer_idx] = path
 	data_changed.emit(_data)
 	_update_settings()
-	
-	if test_music_player.playing:
-		test_music_player.play()
 
 
 func _on_TestThemeToggle_toggled(is_toggled: bool) -> void:
