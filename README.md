@@ -1,10 +1,11 @@
 # A mod manager/creator for Space Beast Terror Fright, a game by Nornware
 
-SBTF Mod Manager/Creator allows users to create mods and share them without having to share the game's entire assets as well as manage mods through setting a mod folder, enabling and disabling mods, and adjusting the mod load order. The manager/creator uses a modified version of [SBTFTool](https://github.com/SquidingTin/sbtf_tool_batch/tree/v2.0.0) by SquidingTin which can be found [here](https://github.com/MisterIchor/sbtf_tool_batch).
+SBTF Mod Manager/Creator allows users to create mods and share them without having to share the game's entire assets as well as manage mods through setting a mod folder, enabling and disabling mods, and adjusting the mod load order.
 
 ## Requirements
 
 [Microsoft .NET 9.0 Runtime](https://dotnet.microsoft.com/en-us/download/dotnet/9.0)
+
 [SBTFTool](https://github.com/MisterIchor/sbtf_tool_batch/tree/main) by SquidingTin, modified by me.
 
 
