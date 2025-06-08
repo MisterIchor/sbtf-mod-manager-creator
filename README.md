@@ -12,7 +12,7 @@ SBTF Mod Manager/Creator allows users to create mods and share them without havi
 ## Installation
 Download the release and extract it whereever you please. Then, download my modified version of [SBTFTool](https://github.com/MisterIchor/sbtf_tool_batch) and extract it inside the sbtftool folder located within the root of the manager/creator folder. 
 
-Upon startup, SBTF Mod Manager/Creator will prompt you to provide a path to the game's sbtf_pub.nwf file. **This must be a file from version 60** as it was the last version supported by SBTFTool. In addition, two folders are created in the root directory: a hidden .temp folder for unpacking/repacking the game's assets, and a mods folder for storing .sbtfmod files created by SBTF Mod Manger/Creator. These can be changed through the settings in the start menu.
+Upon startup, SBTF Mod Manager/Creator will prompt you to provide a path to the game's sbtf_pub.nwf file. **This must be a file from version 60** as it was the last version supported by SBTFTool. In addition, two folders are created in the root directory: a hidden .temp folder for unpacking/repacking the game's assets, and a mods folder for storing .sbtfmod files created by SBTF Mod Manager/Creator. These can be changed through the settings in the start menu.
 
 ### How to get the right version of Space Beast Terror Fright?
 
