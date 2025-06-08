@@ -29,3 +29,5 @@ SBTF Mod Manager/Creator creates a backup of the sbtf_pub.nwf file to make chang
 .sbtfmod is a unique file format, in that it's just a zip file with a renamed extension. You can use any .zip program to open a .sbtfmod file.
 
 If you add or remove mods from your mods folder, you will need to reenter the manager screen for the mod list to refresh.
+
+When switching to switching to the create mods section, there will be a hitch as SBTFTool starts unpacking.
