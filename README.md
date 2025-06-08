@@ -31,4 +31,4 @@ SBTF Mod Manager/Creator creates a backup of the sbtf_pub.nwf file to make chang
 
 If you add or remove mods from your mods folder, you will need to reenter the manager screen for the mod list to refresh.
 
-When switching to switching to the create mods section, there will be a hitch as SBTFTool starts unpacking.
+When switching to the create mods section, there will be a hitch as SBTFTool starts unpacking.
