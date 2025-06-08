@@ -17,7 +17,7 @@ Upon startup, SBTF Mod Manager/Creator will prompt you to provide a path to the 
 ### How to get the right version of Space Beast Terror Fright?
 
 1. Enable the steam console by typing ```steam://open/console``` into your web browser.
-  - Alternatively, you can type ```steam://open/console``` into run.exe (if you are on windows) or ```steam steam://open/console``` into the terminal if you are on linux.
+  - Alternatively, you can type ```steam://open/console``` into run.exe (if you are on windows) or ```steam steam://open/console``` into the terminal (if you are on linux).
 
 2. Type or copy the following line into the console ```download_depot 357330 357331 5505261689257298877``` and hit enter. If done correctly, it will show something like ```Downloading depot 357331 (3 files, 277 MB) ... ```
 
